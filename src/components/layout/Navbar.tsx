@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Loader2, BookOpen, Menu, X } from "lucide-react";
+import { Loader2, Menu, X } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useRouter, usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -25,36 +25,126 @@ export default function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
+  const authLinks = [
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/admin/books", label: "Manage" },
+  ];
+
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   };
 
   return (
-    <header className="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant w-full">
-      <nav className="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto h-16">
+    <header className="bg-surface/90 backdrop-blur-xl sticky top-0 z-50 border-b border-outline-variant/60 w-full">
+      <nav className="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto h-[72px]">
         
         {/* Logo */}
-        <div className="flex items-center gap-10">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-              <BookOpen className="w-5 h-5 text-on-primary" strokeWidth={2.5} />
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="text-lg font-bold text-on-background tracking-tight">BookVerse</span>
-              <span className="text-[10px] text-on-surface-variant tracking-[0.15em] uppercase font-medium hidden sm:block">Online Bookstore</span>
-            </div>
-          </Link>
+        <Link href="/" className="flex items-center gap-3 shrink-0">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+            <rect width="32" height="32" rx="8" className="fill-primary"/>
+            <path d="M8 9C8 8.44772 8.44772 8 9 8H14C14.5523 8 15 8.44772 15 9V23C15 23.5523 14.5523 24 14 24H9C8.44772 24 8 23.5523 8 23V9Z" fill="white" fillOpacity="0.9"/>
+            <path d="M17 9C17 8.44772 17.4477 8 18 8H23C23.5523 8 24 8.44772 24 9V23C24 23.5523 23.5523 24 23 24H18C17.4477 24 17 23.5523 17 23V9Z" fill="white" fillOpacity="0.55"/>
+          </svg>
+          <span className="text-[22px] font-bold text-on-background tracking-tight leading-none">
+            Book<span className="text-primary">Verse</span>
+          </span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+        {/* Center Navigation */}
+        <div className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`relative px-4 py-2 text-[14px] font-medium transition-colors rounded-md ${
+                isActive(link.href)
+                  ? "text-on-background"
+                  : "text-on-surface-variant hover:text-on-background"
+              }`}
+            >
+              {link.label}
+              {isActive(link.href) && (
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-primary rounded-full"></span>
+              )}
+            </Link>
+          ))}
+          {session && authLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`relative px-4 py-2 text-[14px] font-medium transition-colors rounded-md ${
+                isActive(link.href)
+                  ? "text-on-background"
+                  : "text-on-surface-variant hover:text-on-background"
+              }`}
+            >
+              {link.label}
+              {isActive(link.href) && (
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-primary rounded-full"></span>
+              )}
+            </Link>
+          ))}
+        </div>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="hidden md:block">
+            <ThemeToggle />
+          </div>
+
+          <div className="hidden md:block w-px h-5 bg-outline-variant/80 mx-1"></div>
+
+          {isPending ? (
+            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+          ) : session ? (
+            <div className="hidden md:flex items-center gap-3">
+              <Link href="/profile" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-sm font-semibold">
+                  {session.user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-sm font-medium text-on-background max-w-[100px] truncate">{session.user.name.split(" ")[0]}</span>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="text-sm font-medium text-on-surface-variant hover:text-error transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center gap-2">
+              <Link href="/login" className="px-4 py-2 text-sm font-medium text-on-surface-variant hover:text-on-background transition-colors">
+                Log in
+              </Link>
+              <Link href="/register" className="px-5 py-2.5 bg-primary text-on-primary rounded-lg text-sm font-semibold hover:opacity-90 transition-all active:scale-[0.97]">
+                Get Started
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Toggle */}
+          <button 
+            onClick={() => setMobileOpen(!mobileOpen)} 
+            className="lg:hidden p-2 rounded-lg text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="lg:hidden border-t border-outline-variant/60 bg-surface/95 backdrop-blur-xl">
+          <div className="max-w-container-max mx-auto px-margin-desktop py-4 space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                onClick={() => setMobileOpen(false)}
+                className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? "text-primary bg-primary/8"
+                    ? "text-primary bg-primary/5"
                     : "text-on-surface-variant hover:text-on-background hover:bg-surface-container-low"
                 }`}
               >
@@ -63,92 +153,32 @@ export default function Navbar() {
             ))}
             {session && (
               <>
-                <Link href="/dashboard" className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive("/dashboard") ? "text-primary bg-primary/8" : "text-on-surface-variant hover:text-on-background hover:bg-surface-container-low"}`}>
-                  Dashboard
-                </Link>
-                <Link href="/admin/books" className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive("/admin") ? "text-primary bg-primary/8" : "text-on-surface-variant hover:text-on-background hover:bg-surface-container-low"}`}>
-                  Manage
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* Right side actions */}
-        <div className="flex items-center gap-2">
-          <div className="hidden md:flex items-center gap-1">
-            <ThemeToggle />
-          </div>
-
-          <div className="hidden md:block w-px h-6 bg-outline-variant mx-2"></div>
-
-          <div className="flex items-center gap-2">
-            {isPending ? (
-              <Loader2 className="w-5 h-5 animate-spin text-primary" />
-            ) : session ? (
-              <>
-                <Link href="/profile" className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-surface-container-low transition-colors">
-                  <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">
-                    {session.user.name.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="text-sm font-medium text-on-background">{session.user.name.split(" ")[0]}</span>
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 text-sm font-medium text-on-surface-variant hover:text-error rounded-md hover:bg-error/5 transition-colors"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="px-4 py-2 text-sm font-medium text-on-surface-variant hover:text-on-background rounded-md hover:bg-surface-container-low transition-colors">
-                  Login
-                </Link>
-                <Link href="/register" className="px-5 py-2 bg-primary text-on-primary rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity active:scale-95">
-                  Register
+                <div className="h-px bg-outline-variant/60 my-2"></div>
+                {authLinks.map((link) => (
+                  <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} className="block px-4 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors">
+                    {link.label}
+                  </Link>
+                ))}
+                <Link href="/profile" onClick={() => setMobileOpen(false)} className="block px-4 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors">
+                  Profile
                 </Link>
               </>
             )}
-          </div>
-
-          {/* Mobile menu button */}
-          <button 
-            onClick={() => setMobileOpen(!mobileOpen)} 
-            className="lg:hidden p-2 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors ml-1"
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Navigation */}
-      {mobileOpen && (
-        <div className="lg:hidden border-t border-outline-variant bg-surface px-margin-desktop py-4 space-y-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className={`block px-4 py-2.5 rounded-md text-sm font-medium transition-colors ${
-                isActive(link.href)
-                  ? "text-primary bg-primary/8"
-                  : "text-on-surface-variant hover:text-on-background hover:bg-surface-container-low"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-          {session && (
-            <>
-              <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-md text-sm font-medium text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors">Dashboard</Link>
-              <Link href="/profile" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-md text-sm font-medium text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors">Profile</Link>
-              <Link href="/admin/books" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-md text-sm font-medium text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors">Manage Books</Link>
-            </>
-          )}
-          <div className="pt-2 border-t border-outline-variant mt-2 flex items-center justify-between px-4">
-            <span className="text-xs text-on-surface-variant uppercase tracking-wider font-medium">Theme</span>
-            <ThemeToggle />
+            <div className="h-px bg-outline-variant/60 my-2"></div>
+            <div className="flex items-center justify-between px-4 py-2">
+              <span className="text-xs text-on-surface-variant uppercase tracking-widest font-semibold">Appearance</span>
+              <ThemeToggle />
+            </div>
+            {!session && (
+              <div className="pt-2 flex gap-2 px-4">
+                <Link href="/login" onClick={() => setMobileOpen(false)} className="flex-1 text-center py-2.5 border border-outline-variant rounded-lg text-sm font-medium text-on-background hover:bg-surface-container-low transition-colors">
+                  Log in
+                </Link>
+                <Link href="/register" onClick={() => setMobileOpen(false)} className="flex-1 text-center py-2.5 bg-primary text-on-primary rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">
+                  Get Started
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}
