@@ -23,7 +23,7 @@ export default function UserDashboard() {
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
-      const res = await api.get("/orders");
+      const res = await api.get("/orders/my-orders");
       if (res.data) {
         setOrders(res.data.data || res.data);
       }
@@ -102,13 +102,13 @@ export default function UserDashboard() {
                           {order.status === 'Delivered' ? <CheckCircle2 className="w-6 h-6" /> : <Clock className="w-6 h-6" />}
                         </div>
                         <div>
-                          <h4 className="font-bold text-on-background">{order.id}</h4>
+                          <h4 className="font-bold text-on-background">{order._id || order.id}</h4>
                           <p className="text-sm text-on-surface-variant mt-0.5">{order.date || new Date(order.createdAt).toLocaleDateString()} • {order.items?.length || 1} items</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between w-full sm:w-auto gap-6">
                         <div className="text-left sm:text-right">
-                          <p className="font-bold text-on-background">${order.total}</p>
+                          <p className="font-bold text-on-background">${order.totalAmount || order.total}</p>
                           <p className={`text-xs font-bold uppercase tracking-wider mt-0.5 ${order.status === 'Delivered' ? 'text-secondary' : 'text-tertiary'}`}>
                             {order.status}
                           </p>

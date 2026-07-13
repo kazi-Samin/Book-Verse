@@ -10,18 +10,49 @@ import { useCart } from "@/hooks/useCart";
 function SuccessContent() {
   const searchParams = useSearchParams();
   const paymentIntent = searchParams.get("payment_intent");
-  const { clearCart } = useCart();
+  const { cartItems, cartTotal, clearCart } = useCart();
   const [loading, setLoading] = useState(true);
+  const [orderCreated, setOrderCreated] = useState(false);
 
   useEffect(() => {
-    // Clear cart on successful payment
-    if (paymentIntent) {
-      clearCart();
-      // You could optionally verify the payment intent status with your backend here
-      // For now, we'll just clear the cart and show success
-    }
-    setLoading(false);
-  }, [paymentIntent, clearCart]);
+    const createOrder = async () => {
+      if (paymentIntent && cartItems.length > 0 && !orderCreated) {
+        setOrderCreated(true);
+        try {
+          const orderData = {
+            orderNumber: `ORD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+            items: cartItems.map(item => ({
+              bookId: item.id,
+              title: item.title,
+              price: item.price,
+              quantity: item.quantity,
+              coverImage: item.coverImage
+            })),
+            totalAmount: cartTotal,
+            paymentMethod: 'Stripe',
+            paymentStatus: 'Paid',
+            shippingAddress: {
+              fullName: "Test User",
+              phone: "0123456789",
+              streetAddress: "123 Test St",
+              city: "Test City",
+              state: "Test State",
+              zipCode: "12345",
+              country: "Bangladesh"
+            }
+          };
+          
+          await api.post("/orders", orderData);
+          clearCart();
+        } catch (err) {
+          console.error("Failed to create order:", err);
+        }
+      }
+      setLoading(false);
+    };
+
+    createOrder();
+  }, [paymentIntent, cartItems, cartTotal, clearCart, orderCreated]);
 
   if (loading) {
     return (
