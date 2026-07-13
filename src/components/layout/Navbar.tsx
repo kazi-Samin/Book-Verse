@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Search, Moon, Sun, Loader2 } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
