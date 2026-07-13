@@ -1,17 +1,30 @@
 import { IBook } from "@/types";
+import { useCart } from "@/hooks/useCart";
 
 interface BookCardProps {
   book: IBook;
 }
 
 export default function BookCard({ book }: BookCardProps) {
+  const { addItem } = useCart();
+
+  const handleAddToCart = () => {
+    addItem({
+      _id: book._id,
+      title: book.title,
+      author: book.author,
+      price: book.price,
+      coverImage: book.coverImage || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop"
+    });
+  };
+
   return (
     <div className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full">
       <div className="p-4 bg-surface-container-low overflow-hidden">
         <img 
           className="w-full aspect-[3/4] object-cover rounded shadow-lg group-hover:rotate-1 transition-transform border border-black/5" 
           alt={book.title} 
-          src={book.coverImage || "https://lh3.googleusercontent.com/aida-public/AB6AXuAcF3_0KAP48EMfpEAAiySH-PgtIo-A26xH4vEjXoUduYzyTmGgZiaXcVmJ-JaZYUOIEx-ZJzc1le4JI5_HDZWue-BFNhXECNAeQ1qqimm94aRXLkQphxXltOAIBw6sWOSG5uyeS6j9I2uwDoO_pbB49-MrTQJ2Cvq9RHT1TJVs-kNk2xDBxjwR5-hBQjqN5VU_DAS-myhO0syyzgwHv7iGfjxAEuUzvUj63RQOIuR2kLlI2xyzDjBlr_C8eROdIbXkjlh41lXZOs8"} 
+          src={book.coverImage || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop"} 
         />
       </div>
       <div className="p-card-padding flex flex-col flex-grow">
@@ -27,7 +40,10 @@ export default function BookCard({ book }: BookCardProps) {
         </div>
         <div className="mt-auto flex justify-between items-center">
           <span className="font-card-title text-card-title text-primary font-bold">${book.price.toFixed(2)}</span>
-          <button className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all">
+          <button 
+            onClick={handleAddToCart}
+            className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all"
+          >
             <span className="material-symbols-outlined">add_shopping_cart</span>
           </button>
         </div>

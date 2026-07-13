@@ -27,10 +27,14 @@ interface StaticBook {
   img: string;
 }
 
-const IMG1 = "https://lh3.googleusercontent.com/aida-public/AB6AXuAcF3_0KAP48EMfpEAAiySH-PgtIo-A26xH4vEjXoUduYzyTmGgZiaXcVmJ-JaZYUOIEx-ZJzc1le4JI5_HDZWue-BFNhXECNAeQ1qqimm94aRXLkQphxXltOAIBw6sWOSG5uyeS6j9I2uwDoO_pbB49-MrTQJ2Cvq9RHT1TJVs-kNk2xDBxjwR5-hBQjqN5VU_DAS-myhO0syyzgwHv7iGfjxAEuUzvUj63RQOIuR2kLlI2xyzDjBlr_C8eROdIbXkjlh41lXZOs8";
-const IMG2 = "https://lh3.googleusercontent.com/aida-public/AB6AXuCoIu1MYU5RuYjA2U3XiSH1VqrTdmB5SV1MTV80tY2fLbSQ1ycUgzqjs8oY3SIOoQhcPHiE7hnivQrbHmeAeH4bc3fhskwjjWmKoQkbbeA6-GfKMHykTqQbV-_ls6LYpdB4ComuodM3q3mdg9LEVBghsb47RWEgynllrHeFK9Q_TxBOntUtlYDiu-wWYd_3Qtc3HLLvj_DuF4XNVerv02XNuqCKguM_V3WaYxlzd2wRDoHnwIcP-0Kq5jGkcqoFHdqkmWj3gHIRNG0";
-const IMG3 = "https://lh3.googleusercontent.com/aida-public/AB6AXuAVwnEhqjvNIiujHAPaeaKRPf-15YM0vA9Qox_d96Su8Ki881ZawNFiujfR74CVMuURXTTCQaTOcgSpBt-eRNFHRAHApKICaQpfGUxixFvQHLfCmU49diaFm8NlWfJ4lbWQlYAsFZo7nPw4jEuq26r6G0RX3Byq8AoPvzKDDFceNJdW02wyV0mBnB--KHeMWprtXNi9uTqlUiiJQtPsXvKM6HaKp8ZlEQ2VCYLLD5A2ufcTckn6FEC1SQ_MZhEuzH8OIj8U0viMbLs";
-const IMG4 = "https://lh3.googleusercontent.com/aida-public/AB6AXuBT5oiN3QDc0kL9JrZT_vH6mfLn9VO6bFnEWa1H549c-_2L6EOZpNZkYNaWwK5Ml1WG8ZytBVmMdsL4lOHyhfdEZ4q2TB67o9lHZBeFPTuJcOaKG84JlCccM2Sf5dFSjO9M0neq2Zg9HdERAN-JFQdd7xUJNgMg3GyI0cdta_OrdnQyD0hZl-LNJsOejetOyMGITVqkHXRcaKEPfHLZF_dv1bsaSZ86g4rHsshLjHxWV-C5K_P2rIdHgqreTttqG8upiAAXcwhp-hY";
+const IMG1 = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop";
+const IMG2 = "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop";
+const IMG3 = "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop";
+const IMG4 = "https://images.unsplash.com/photo-1524578271613-d550eacf6090?q=80&w=600&auto=format&fit=crop";
+const IMG5 = "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=600&auto=format&fit=crop";
+const IMG6 = "https://images.unsplash.com/photo-1589998059171-9899ea85de89?q=80&w=600&auto=format&fit=crop";
+const IMG7 = "https://images.unsplash.com/photo-1511108690759-009324a5033d?q=80&w=600&auto=format&fit=crop";
+const IMG8 = "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop";
 
 const newArrivals: StaticBook[] = [
   { title: "The Silent Observer", author: "Sarah J. Wellington", category: "Fiction", price: "$24.00", rating: "4.8", reviews: "1.2k", img: IMG1 },
@@ -40,20 +44,38 @@ const newArrivals: StaticBook[] = [
 ];
 
 const topRated: StaticBook[] = [
-  { title: "Whispers in the Dark", author: "Liam Cross", category: "Mystery", price: "$18.99", rating: "4.9", reviews: "3.4k", img: IMG3 },
-  { title: "The Last Algorithm", author: "Priya Sharma", category: "Sci-Fi", price: "$27.00", rating: "4.8", reviews: "1.8k", img: IMG2 },
-  { title: "Beneath the Surface", author: "Olivia Hart", category: "Psychology", price: "$22.50", rating: "4.9", reviews: "980", img: IMG4 },
-  { title: "Empire of Dust", author: "James Aldrin", category: "History", price: "$29.99", rating: "4.7", reviews: "2.5k", img: IMG1 },
+  { title: "Whispers in the Dark", author: "Liam Cross", category: "Mystery", price: "$18.99", rating: "4.9", reviews: "3.4k", img: IMG5 },
+  { title: "The Last Algorithm", author: "Priya Sharma", category: "Sci-Fi", price: "$27.00", rating: "4.8", reviews: "1.8k", img: IMG6 },
+  { title: "Beneath the Surface", author: "Olivia Hart", category: "Psychology", price: "$22.50", rating: "4.9", reviews: "980", img: IMG7 },
+  { title: "Empire of Dust", author: "James Aldrin", category: "History", price: "$29.99", rating: "4.7", reviews: "2.5k", img: IMG8 },
 ];
 
 const bestValue: StaticBook[] = [
-  { title: "The Paper Garden", author: "Mei Lin", category: "Fiction", price: "$9.99", rating: "4.5", reviews: "620", img: IMG4 },
-  { title: "Starlight Express", author: "Noah Blake", category: "Sci-Fi", price: "$11.99", rating: "4.6", reviews: "430", img: IMG1 },
-  { title: "Forgotten Realms", author: "Clara Jennings", category: "Mystery", price: "$12.50", rating: "4.4", reviews: "790", img: IMG2 },
+  { title: "The Paper Garden", author: "Mei Lin", category: "Fiction", price: "$9.99", rating: "4.5", reviews: "620", img: IMG1 },
+  { title: "Starlight Express", author: "Noah Blake", category: "Sci-Fi", price: "$11.99", rating: "4.6", reviews: "430", img: IMG2 },
+  { title: "Forgotten Realms", author: "Clara Jennings", category: "Mystery", price: "$12.50", rating: "4.4", reviews: "790", img: IMG4 },
   { title: "The Human Condition", author: "Dr. R. Patel", category: "Psychology", price: "$14.99", rating: "4.7", reviews: "1.1k", img: IMG3 },
 ];
 
+import { useCart } from "@/hooks/useCart";
+
 function StaticBookCard({ title, author, category, price, rating, reviews, img }: StaticBook) {
+  const { addItem } = useCart();
+  
+  const handleAddToCart = () => {
+    // Generate a pseudo-ID for the static book so it works in the cart
+    const pseudoId = title.toLowerCase().replace(/\s+/g, '-');
+    const numericPrice = parseFloat(price.replace('$', ''));
+    
+    addItem({
+      _id: pseudoId,
+      title: title,
+      author: author,
+      price: numericPrice,
+      coverImage: img
+    });
+  };
+
   return (
     <div className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full">
       <div className="p-4 bg-surface-container-low overflow-hidden">
@@ -70,7 +92,10 @@ function StaticBookCard({ title, author, category, price, rating, reviews, img }
         </div>
         <div className="mt-auto flex justify-between items-center">
           <span className="font-card-title text-card-title text-primary font-bold">{price}</span>
-          <button className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all">
+          <button 
+            onClick={handleAddToCart}
+            className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all"
+          >
             <span className="material-symbols-outlined">add_shopping_cart</span>
           </button>
         </div>

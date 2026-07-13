@@ -155,20 +155,29 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Simple Text CTA */}
-      <section className="bg-on-background text-background py-32 text-center px-margin-desktop">
+      {/* Premium Floating CTA */}
+      <section className="px-4 md:px-margin-desktop py-32 max-w-[1200px] mx-auto">
         <motion.div 
-          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-primary/10 via-surface to-primary/5 border border-primary/20 shadow-2xl text-center py-24 px-8 md:px-16"
         >
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-10">Join the movement.</h2>
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Link href="/explore" className="px-10 py-5 bg-background text-on-background rounded-full font-bold hover:scale-105 transition-transform text-lg">
-              Explore Library
-            </Link>
-            <Link href="/contact" className="px-10 py-5 border border-outline-variant/30 rounded-full font-bold hover:bg-white/10 transition-colors text-lg">
-              Get in Touch
-            </Link>
+          {/* Decorative glow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-primary/20 blur-[100px] rounded-full pointer-events-none"></div>
+          
+          <div className="relative z-10 max-w-3xl mx-auto">
+            <span className="font-label-caps text-sm uppercase tracking-[0.2em] text-primary font-bold block mb-4">Start Your Journey</span>
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-8 text-on-background">Join the movement.</h2>
+            <p className="text-lg md:text-xl text-on-surface-variant font-light mb-12 max-w-xl mx-auto">
+              Become part of a global community that values deep reading, beautifully crafted books, and distraction-free discovery.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <Link href="/explore" className="px-10 py-4 bg-primary text-on-primary rounded-full font-bold hover:scale-105 hover:shadow-xl transition-all text-lg flex items-center justify-center gap-2">
+                Explore Library <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link href="/contact" className="px-10 py-4 bg-surface text-on-background border border-outline-variant hover:border-primary rounded-full font-bold hover:bg-surface-container-low hover:shadow-lg transition-all text-lg flex items-center justify-center">
+                Get in Touch
+              </Link>
+            </div>
           </div>
         </motion.div>
       </section>

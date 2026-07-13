@@ -5,13 +5,22 @@ import { Loader2, Menu, X } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useRouter, usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "@/hooks/useCart";
+import CartSidebar from "@/components/ui/CartSidebar";
 
 export default function Navbar() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { toggleCart, getTotals } = useCart();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = async () => {
     await signOut();
@@ -94,6 +103,18 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-3 shrink-0">
+          <button
+            onClick={toggleCart}
+            className="relative p-2 rounded-lg text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors flex items-center justify-center"
+          >
+            <ShoppingCart className="w-5 h-5" />
+            {mounted && getTotals().totalItems > 0 && (
+              <span className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 bg-primary text-on-primary text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                {getTotals().totalItems}
+              </span>
+            )}
+          </button>
+          
           <div className="hidden md:block">
             <ThemeToggle />
           </div>
@@ -187,6 +208,7 @@ export default function Navbar() {
           </div>
         </div>
       )}
+      <CartSidebar />
     </header>
   );
 }

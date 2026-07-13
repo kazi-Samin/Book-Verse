@@ -5,8 +5,10 @@ import { useBooks, BookFilters } from "@/hooks/useBooks";
 import BookCard from "@/components/ui/BookCard";
 import { Search, Loader2, BookX, ChevronRight, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
+import { useSession } from "@/lib/auth-client";
 
 export default function ExplorePage() {
+  const { data: session, isPending } = useSession();
   const [filters, setFilters] = useState<BookFilters>({
     page: 1,
     limit: 12,
@@ -151,90 +153,123 @@ export default function ExplorePage() {
 
         {/* Main Content */}
         <main className="flex-1">
-          {/* Top Toolbar */}
-          <div className="flex flex-col sm:flex-row justify-between items-center bg-surface border border-outline-variant rounded-md p-4 mb-6">
-            <p className="text-sm text-on-surface-variant font-medium mb-4 sm:mb-0">
-              {isLoading ? "Loading..." : data?.pagination ? `Showing ${(data.pagination.page - 1) * data.pagination.limit + 1} - ${Math.min(data.pagination.page * data.pagination.limit, data.pagination.total)} of ${data.pagination.total} results` : "0 results"}
-            </p>
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <label className="text-sm font-medium text-on-surface-variant whitespace-nowrap">Sort by:</label>
-              <select 
-                value={filters.sortBy}
-                onChange={(e) => updateFilter("sortBy", e.target.value)}
-                className="w-full sm:w-auto pl-3 pr-8 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-md text-sm text-on-background focus:outline-none focus:border-primary cursor-pointer transition-colors"
-              >
-                <option value="newest">Newest Arrivals</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
-                <option value="rating_desc">Highest Rated</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Book Grid */}
-          {isLoading ? (
+          {isPending ? (
             <div className="w-full py-32 flex flex-col items-center justify-center text-primary">
               <Loader2 className="w-10 h-10 animate-spin mb-4" />
-              <p className="font-medium text-sm">Loading catalog...</p>
+              <p className="font-medium text-sm">Checking access...</p>
             </div>
-          ) : error ? (
-            <div className="w-full py-20 flex flex-col items-center justify-center text-error bg-error-container/20 border border-error/20 rounded-md">
-              <BookX className="w-10 h-10 mb-3 opacity-80" />
-              <p className="font-medium text-sm">Failed to load catalog. Please try again.</p>
-            </div>
-          ) : data?.data && data.data.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {data.data.map((book) => (
-                  <BookCard key={book._id} book={book} />
-                ))}
-              </div>
+          ) : !session ? (
+            <div className="relative w-full h-[600px] rounded-2xl overflow-hidden flex items-center justify-center border border-outline-variant">
+              {/* Blurred background pattern */}
+              <div className="absolute inset-0 bg-surface-container-low opacity-50" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, rgba(0,0,0,0.1) 1px, transparent 0)", backgroundSize: "24px 24px" }}></div>
+              <div className="absolute inset-0 backdrop-blur-sm"></div>
               
-              {/* Professional Pagination */}
-              {data.pagination && data.pagination.totalPages > 1 && (
-                <div className="mt-12 flex justify-center items-center gap-2">
-                  <button 
-                    disabled={data.pagination.page === 1}
-                    onClick={() => updateFilter("page", filters.page! - 1)}
-                    className="px-4 py-2 border border-outline-variant rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-surface-container-low transition-colors text-sm font-medium text-on-surface-variant hover:text-on-background"
+              <div className="relative z-10 max-w-lg text-center p-8 bg-surface/80 backdrop-blur-xl border border-outline-variant rounded-3xl shadow-2xl mx-4">
+                <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                  <span className="material-symbols-outlined text-3xl">lock</span>
+                </div>
+                <h3 className="text-3xl font-bold text-on-background mb-4 tracking-tight">Unlock the Library</h3>
+                <p className="text-on-surface-variant font-medium mb-8 leading-relaxed">
+                  Join BookVerse today to browse our full catalog of 150+ premium books, build your wishlist, and read exclusive content.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link href="/login" className="px-8 py-3 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-primary/20">
+                    Sign In
+                  </Link>
+                  <Link href="/register" className="px-8 py-3 bg-surface border border-outline-variant text-on-background rounded-xl font-bold hover:bg-surface-container-low transition-all shadow-sm">
+                    Create Account
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Top Toolbar */}
+              <div className="flex flex-col sm:flex-row justify-between items-center bg-surface border border-outline-variant rounded-md p-4 mb-6">
+                <p className="text-sm text-on-surface-variant font-medium mb-4 sm:mb-0">
+                  {isLoading ? "Loading..." : data?.pagination ? `Showing ${(data.pagination.page - 1) * data.pagination.limit + 1} - ${Math.min(data.pagination.page * data.pagination.limit, data.pagination.total)} of ${data.pagination.total} results` : "0 results"}
+                </p>
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <label className="text-sm font-medium text-on-surface-variant whitespace-nowrap">Sort by:</label>
+                  <select 
+                    value={filters.sortBy}
+                    onChange={(e) => updateFilter("sortBy", e.target.value)}
+                    className="w-full sm:w-auto pl-3 pr-8 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-md text-sm text-on-background focus:outline-none focus:border-primary cursor-pointer transition-colors"
                   >
-                    Prev
-                  </button>
-                  {Array.from({ length: data.pagination.totalPages }, (_, i) => i + 1).map((p) => (
-                    <button
-                      key={p}
-                      onClick={() => updateFilter("page", p)}
-                      className={`w-9 h-9 flex items-center justify-center rounded-md text-sm font-medium transition-colors ${
-                        data.pagination!.page === p 
-                        ? "bg-primary text-on-primary border border-primary" 
-                        : "border border-outline-variant text-on-surface-variant hover:bg-surface-container-low hover:text-on-background"
-                      }`}
-                    >
-                      {p}
-                    </button>
-                  ))}
+                    <option value="newest">Newest Arrivals</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                    <option value="rating_desc">Highest Rated</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Book Grid */}
+              {isLoading ? (
+                <div className="w-full py-32 flex flex-col items-center justify-center text-primary">
+                  <Loader2 className="w-10 h-10 animate-spin mb-4" />
+                  <p className="font-medium text-sm">Loading catalog...</p>
+                </div>
+              ) : error ? (
+                <div className="w-full py-20 flex flex-col items-center justify-center text-error bg-error-container/20 border border-error/20 rounded-md">
+                  <BookX className="w-10 h-10 mb-3 opacity-80" />
+                  <p className="font-medium text-sm">Failed to load catalog. Please try again.</p>
+                </div>
+              ) : data?.data && data.data.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {data.data.map((book) => (
+                      <BookCard key={book._id} book={book} />
+                    ))}
+                  </div>
+                  
+                  {/* Professional Pagination */}
+                  {data.pagination && data.pagination.totalPages > 1 && (
+                    <div className="mt-12 flex justify-center items-center gap-2">
+                      <button 
+                        disabled={data.pagination.page === 1}
+                        onClick={() => updateFilter("page", filters.page! - 1)}
+                        className="px-4 py-2 border border-outline-variant rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-surface-container-low transition-colors text-sm font-medium text-on-surface-variant hover:text-on-background"
+                      >
+                        Prev
+                      </button>
+                      {Array.from({ length: data.pagination.totalPages }, (_, i) => i + 1).map((p) => (
+                        <button
+                          key={p}
+                          onClick={() => updateFilter("page", p)}
+                          className={`w-9 h-9 flex items-center justify-center rounded-md text-sm font-medium transition-colors ${
+                            data.pagination!.page === p 
+                            ? "bg-primary text-on-primary border border-primary" 
+                            : "border border-outline-variant text-on-surface-variant hover:bg-surface-container-low hover:text-on-background"
+                          }`}
+                        >
+                          {p}
+                        </button>
+                      ))}
+                      <button 
+                        disabled={data.pagination.page === data.pagination.totalPages}
+                        onClick={() => updateFilter("page", filters.page! + 1)}
+                        className="px-4 py-2 border border-outline-variant rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-surface-container-low transition-colors text-sm font-medium text-on-surface-variant hover:text-on-background"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="w-full py-32 flex flex-col items-center justify-center text-on-surface-variant bg-surface border border-outline-variant rounded-md">
+                  <BookX className="w-12 h-12 opacity-30 mb-4" />
+                  <h3 className="text-lg font-bold text-on-background mb-2">No results found</h3>
+                  <p className="text-sm max-w-sm text-center mb-6">We couldn't find any books matching your current filters. Try adjusting your search or removing some filters.</p>
                   <button 
-                    disabled={data.pagination.page === data.pagination.totalPages}
-                    onClick={() => updateFilter("page", filters.page! + 1)}
-                    className="px-4 py-2 border border-outline-variant rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-surface-container-low transition-colors text-sm font-medium text-on-surface-variant hover:text-on-background"
+                    onClick={() => setFilters({ page: 1, limit: 12, sortBy: "newest" })}
+                    className="px-6 py-2 bg-surface-container-low border border-outline-variant text-on-background rounded-md text-sm font-medium hover:bg-outline-variant/30 transition-colors"
                   >
-                    Next
+                    Clear All Filters
                   </button>
                 </div>
               )}
             </>
-          ) : (
-            <div className="w-full py-32 flex flex-col items-center justify-center text-on-surface-variant bg-surface border border-outline-variant rounded-md">
-              <BookX className="w-12 h-12 opacity-30 mb-4" />
-              <h3 className="text-lg font-bold text-on-background mb-2">No results found</h3>
-              <p className="text-sm max-w-sm text-center mb-6">We couldn't find any books matching your current filters. Try adjusting your search or removing some filters.</p>
-              <button 
-                onClick={() => setFilters({ page: 1, limit: 12, sortBy: "newest" })}
-                className="px-6 py-2 bg-surface-container-low border border-outline-variant text-on-background rounded-md text-sm font-medium hover:bg-outline-variant/30 transition-colors"
-              >
-                Clear All Filters
-              </button>
-            </div>
           )}
         </main>
       </div>
