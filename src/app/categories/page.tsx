@@ -9,7 +9,7 @@ const fadeUp: Variants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" },
+    transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" as const },
   }),
 };
 
@@ -128,25 +128,17 @@ export default function CategoriesPage() {
           viewport={{ once: true, margin: "-60px" }}
           variants={stagger}
         >
-          {categories.map((cat, i) => (
-            <motion.div key={cat.name} variants={fadeUp} custom={i}>
-              <Link href={`/explore?category=${encodeURIComponent(cat.name)}`} className="block h-full group">
-                <div className="bg-surface rounded-2xl p-6 border border-outline-variant hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/5 to-transparent rounded-bl-full -z-0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-5 ${cat.color} relative z-10`}>
-                    <cat.icon className="w-7 h-7" />
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-on-background mb-2 relative z-10 group-hover:text-primary transition-colors">{cat.name}</h3>
-                  <p className="text-sm text-on-surface-variant mb-6 flex-grow relative z-10 leading-relaxed">{cat.desc}</p>
-                  
-                  <div className="flex items-center justify-between border-t border-outline-variant pt-4 relative z-10 mt-auto">
-                    <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">{cat.count} Books</span>
-                    <div className="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </div>
+          {categories.map((category, i) => (
+            <motion.div key={i} variants={fadeUp} custom={i}>
+              <Link href={`/explore?category=${encodeURIComponent(category.name)}`} className="block bg-surface rounded-2xl p-6 border border-outline-variant hover:border-primary/50 hover:shadow-lg transition-all group h-full">
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-5 ${category.color} bg-opacity-10 group-hover:scale-110 transition-transform duration-300`}>
+                  <category.icon className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-on-background mb-2 group-hover:text-primary transition-colors">{category.name}</h3>
+                <p className="text-sm text-on-surface-variant mb-4">{category.desc}</p>
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/50">
+                  <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">{category.count} Books</span>
+                  <ArrowRight className="w-4 h-4 text-primary opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                 </div>
               </Link>
             </motion.div>
@@ -222,6 +214,48 @@ export default function CategoriesPage() {
                 <p className="text-sm text-on-surface-variant font-medium mb-1">{author.category}</p>
                 <p className="text-xs text-primary font-semibold">{author.books} Books</p>
               </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* Trending Books Section */}
+      <section className="max-w-container-max mx-auto px-margin-desktop mb-24">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          <h2 className="text-3xl font-bold text-on-background mb-4">Trending in Categories</h2>
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+        </motion.div>
+
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={stagger}
+        >
+          {[
+            { title: "The Silent Observer", author: "Sarah J. Wellington", category: "Mystery", price: "$24.00", img: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop" },
+            { title: "Future Pulse", author: "Marcus Thorne", category: "Sci-Fi", price: "$19.50", img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop" },
+            { title: "Echoes of History", author: "Dr. Helena Vance", category: "History", price: "$32.00", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop" },
+            { title: "Mindful Flow", author: "Elena Rossi", category: "Self Development", price: "$21.99", img: "https://images.unsplash.com/photo-1524578271613-d550eacf6090?q=80&w=600&auto=format&fit=crop" }
+          ].map((book, i) => (
+            <motion.div key={i} variants={fadeUp} custom={i}>
+              <Link href="/explore" className="block group">
+                <div className="w-full aspect-[2/3] rounded-2xl overflow-hidden shadow-md border border-outline-variant/30 mb-4 bg-surface-container relative">
+                  <img src={book.img} alt={book.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] font-bold text-primary uppercase tracking-widest">
+                    {book.category}
+                  </div>
+                </div>
+                <h3 className="font-bold text-on-background line-clamp-1 group-hover:text-primary transition-colors">{book.title}</h3>
+                <p className="text-sm text-on-surface-variant font-medium mb-1">{book.author}</p>
+                <p className="font-bold text-primary">{book.price}</p>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

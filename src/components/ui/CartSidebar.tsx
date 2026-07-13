@@ -62,7 +62,7 @@ export default function CartSidebar() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 pb-12 bg-surface-container-lowest/50 dark:bg-surface custom-scrollbar relative">
+        <div className="flex-1 overflow-y-auto p-6 pb-12 bg-surface-container-lowest/50 dark:bg-surface relative">
           {items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center space-y-4 animate-in fade-in zoom-in duration-500">
               <div className="w-24 h-24 bg-surface-container-low rounded-full flex items-center justify-center mb-4 shadow-sm border border-outline-variant/30">
