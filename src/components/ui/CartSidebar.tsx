@@ -38,12 +38,12 @@ export default function CartSidebar() {
       
       {/* Sidebar */}
       <div 
-        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-surface shadow-2xl z-[101] flex flex-col transform transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) dark:border-l dark:border-outline-variant/30 ${
+        className={`fixed top-0 right-0 h-[100dvh] w-full sm:w-[450px] bg-surface shadow-2xl z-[101] flex flex-col transform transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) dark:border-l dark:border-outline-variant/30 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-outline-variant/40 bg-surface z-10">
+        <div className="flex items-center justify-between p-6 border-b border-outline-variant/40 bg-surface shrink-0 z-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shadow-inner">
               <ShoppingCart className="w-5 h-5" />
@@ -62,7 +62,7 @@ export default function CartSidebar() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 bg-surface-container-lowest/50 dark:bg-surface custom-scrollbar relative">
+        <div className="flex-1 overflow-y-auto p-6 pb-12 bg-surface-container-lowest/50 dark:bg-surface custom-scrollbar relative">
           {items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center space-y-4 animate-in fade-in zoom-in duration-500">
               <div className="w-24 h-24 bg-surface-container-low rounded-full flex items-center justify-center mb-4 shadow-sm border border-outline-variant/30">
@@ -135,7 +135,7 @@ export default function CartSidebar() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-outline-variant/40 p-6 bg-surface z-10 shadow-[0_-10px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_-10px_30px_rgba(0,0,0,0.2)]">
+          <div className="border-t border-outline-variant/40 p-6 bg-surface z-10 shrink-0 shadow-[0_-10px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_-10px_30px_rgba(0,0,0,0.2)]">
             <div className="space-y-4 mb-6">
               <div className="flex justify-between text-sm text-on-surface-variant font-medium">
                 <span>Subtotal ({totalItems} items)</span>
