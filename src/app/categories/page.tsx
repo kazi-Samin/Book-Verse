@@ -199,36 +199,35 @@ export default function CategoriesPage() {
         </div>
       </section>
 
-      {/* CTA Banner with Glassmorphism */}
+      {/* CTA Banner with Professional Elegant Design */}
       <section className="py-32 relative">
         <div className="max-w-container-max mx-auto px-margin-desktop relative z-10">
           <motion.div 
-            className="rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl bg-primary"
+            className="rounded-[32px] p-12 md:p-20 text-center relative overflow-hidden bg-[#0f172a] border border-slate-800 shadow-2xl"
             initial={{ opacity: 1, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Animated Gradient Background */}
-            <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay" />
-            <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-indigo-700 opacity-90" />
+            {/* Ambient Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
             
             <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
-              <div className="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center mb-8 border border-white/30 shadow-xl">
-                <Library className="w-10 h-10 text-white" />
+              <div className="w-16 h-16 bg-slate-800/50 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-8 border border-slate-700 shadow-xl">
+                <Library className="w-8 h-8 text-primary-400" />
               </div>
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
                 Ready to dive into your next great adventure?
               </h2>
-              <p className="text-white/90 text-xl mb-12 font-medium leading-relaxed max-w-2xl">
+              <p className="text-slate-300 text-lg mb-10 font-medium leading-relaxed max-w-xl">
                 Join thousands of readers discovering their new favorite books every day.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
-                <Link href="/explore" className="bg-white text-primary px-10 py-5 rounded-2xl font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-[0_10px_40px_rgba(255,255,255,0.3)] flex items-center justify-center gap-2">
-                  Start Exploring <Search className="w-5 h-5" />
+                <Link href="/explore" className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-base hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                  Start Exploring <Search className="w-4 h-4" />
                 </Link>
-                <Link href="/register" className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-white/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
-                  Create Account <User className="w-5 h-5" />
+                <Link href="/register" className="bg-slate-800/50 backdrop-blur-md border border-slate-700 text-white px-8 py-4 rounded-xl font-semibold text-base hover:bg-slate-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                  Create Account <User className="w-4 h-4" />
                 </Link>
               </div>
             </div>
