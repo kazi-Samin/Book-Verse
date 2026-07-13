@@ -4,11 +4,14 @@ import { useCart } from "@/hooks/useCart";
 import { X, Minus, Plus, ShoppingCart, Trash2, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function CartSidebar() {
   const { items, isOpen, setIsOpen, updateQuantity, removeItem, getTotals } = useCart();
   const [mounted, setMounted] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -20,10 +23,9 @@ export default function CartSidebar() {
 
   const handleCheckout = () => {
     setIsCheckingOut(true);
-    setTimeout(() => {
-      alert("Redirecting to secure checkout...");
-      setIsCheckingOut(false);
-    }, 1500);
+    setIsOpen(false);
+    router.push('/checkout');
+    setIsCheckingOut(false);
   };
 
   return (
