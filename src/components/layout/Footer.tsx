@@ -68,6 +68,20 @@ export default function Footer() {
       </div>
       <div className="border-t border-outline-variant py-8 px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="font-caption text-caption text-on-surface-variant">© 2024 BookVerse. All rights reserved.</p>
+        
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 opacity-60">
+            <span className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Powered By</span>
+            <span className="font-bold text-on-background">Stripe</span>
+          </div>
+          <div className="h-4 w-px bg-outline-variant"></div>
+          <div className="flex gap-2">
+            <div className="w-10 h-6 bg-surface border border-outline-variant rounded flex items-center justify-center text-[10px] font-bold text-[#1434CB]">VISA</div>
+            <div className="w-10 h-6 bg-surface border border-outline-variant rounded flex items-center justify-center text-[10px] font-bold text-[#EB001B]">MC</div>
+            <div className="w-10 h-6 bg-surface border border-outline-variant rounded flex items-center justify-center text-[10px] font-bold text-[#0070BA]">AMEX</div>
+          </div>
+        </div>
+
         <div className="flex gap-6">
           <span className="font-caption text-caption text-on-surface-variant flex items-center gap-2">
             English (US)
