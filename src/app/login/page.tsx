@@ -121,14 +121,16 @@ export default function LoginPage() {
 
       {/* Right Panel - Form */}
       <div className="w-full md:w-[55%] flex flex-col relative bg-surface">
-        <div className="hidden md:flex absolute top-8 right-8 items-center gap-4">
-          <Link href="/" className="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2">
+        <div className="hidden md:flex absolute top-8 right-8 items-center gap-4 z-20">
+          <Link href="/" className="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2 bg-surface/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-outline-variant/30">
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
-          <ThemeToggle />
+          <div className="bg-surface/50 backdrop-blur-sm rounded-full border border-outline-variant/30">
+            <ThemeToggle />
+          </div>
         </div>
 
-        <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
+        <div className="flex-1 flex items-center justify-center p-6 sm:p-12 pt-24 sm:pt-32 overflow-y-auto">
           <motion.div 
             className="w-full max-w-[460px] bg-surface rounded-2xl border border-outline-variant/50 p-8 sm:p-10 shadow-xl shadow-black/[0.03]"
             initial={{ opacity: 0, y: 20 }}
