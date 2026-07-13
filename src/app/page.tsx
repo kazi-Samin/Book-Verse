@@ -132,6 +132,98 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why Choose Us Section */}
+      <section className="bg-surface-container-low py-section-v-space border-y border-outline-variant">
+        <div className="max-w-container-max mx-auto px-margin-desktop">
+          <div className="text-center mb-16">
+            <h2 className="font-section-title text-section-title text-on-background mb-4">Why Choose BookVerse?</h2>
+            <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+            <p className="mt-6 text-on-surface-variant max-w-2xl mx-auto font-body-main">We provide an unparalleled reading experience with features designed to help you discover, enjoy, and organize your favorite books.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-12 text-center">
+            <div className="flex flex-col items-center">
+              <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6 shadow-sm">
+                <span className="material-symbols-outlined text-4xl">local_shipping</span>
+              </div>
+              <h3 className="font-card-title text-xl font-bold text-on-background mb-3">Lightning Fast Delivery</h3>
+              <p className="text-on-surface-variant font-body-main">Get your physical copies delivered to your doorstep within 48 hours, anywhere in the world.</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6 shadow-sm">
+                <span className="material-symbols-outlined text-4xl">workspace_premium</span>
+              </div>
+              <h3 className="font-card-title text-xl font-bold text-on-background mb-3">Premium Quality</h3>
+              <p className="text-on-surface-variant font-body-main">Every book is meticulously checked for quality, ensuring you receive pristine, beautifully bound editions.</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6 shadow-sm">
+                <span className="material-symbols-outlined text-4xl">forum</span>
+              </div>
+              <h3 className="font-card-title text-xl font-bold text-on-background mb-3">Vibrant Community</h3>
+              <p className="text-on-surface-variant font-body-main">Join thousands of readers in discussions, book clubs, and exclusive author Q&A sessions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="max-w-container-max mx-auto px-margin-desktop py-section-v-space">
+        <div className="text-center mb-16">
+          <h2 className="font-section-title text-section-title text-on-background mb-4">What Our Readers Say</h2>
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { name: "Emily Chen", role: "Avid Reader", quote: "BookVerse completely changed how I discover new authors. The recommendations are spot-on, and the delivery is incredibly fast." },
+            { name: "Michael T.", role: "Book Club Host", quote: "The curated collections here are unmatched. We buy all our book club selections from BookVerse. Highly recommended!" },
+            { name: "Sarah Jenkins", role: "Literature Student", quote: "I love the clean interface and the seamless reading experience. It's truly a premium sanctuary for book lovers." }
+          ].map((testimonial, i) => (
+            <div key={i} className="bg-surface p-8 rounded-2xl border border-outline-variant whisper-shadow flex flex-col h-full relative">
+              <span className="absolute top-6 left-6 material-symbols-outlined text-6xl text-primary/10">format_quote</span>
+              <p className="font-body-main text-on-background italic mb-8 relative z-10 pt-4">"{testimonial.quote}"</p>
+              <div className="mt-auto flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-bold text-lg">
+                  {testimonial.name.charAt(0)}
+                </div>
+                <div>
+                  <h4 className="font-bold text-on-background">{testimonial.name}</h4>
+                  <p className="text-xs text-on-surface-variant font-label-caps uppercase tracking-wider">{testimonial.role}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Newsletter CTA */}
+      <section className="max-w-container-max mx-auto px-margin-desktop py-12 mb-section-v-space">
+        <div className="bg-primary rounded-3xl p-12 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden shadow-xl">
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <div className="absolute top-[-50%] right-[-10%] w-[80%] h-[200%] bg-white rounded-full blur-[100px] transform rotate-45"></div>
+          </div>
+          <div className="relative z-10 max-w-xl text-center md:text-left text-on-primary">
+            <h2 className="text-4xl font-bold mb-4 font-section-title">Join Our Newsletter</h2>
+            <p className="text-lg opacity-90 font-body-main">Subscribe to get the latest updates on new arrivals, exclusive discounts, and hand-picked book recommendations.</p>
+          </div>
+          <div className="relative z-10 w-full max-w-md">
+            <form className="flex flex-col sm:flex-row gap-3">
+              <input 
+                type="email" 
+                placeholder="Enter your email address" 
+                className="flex-grow px-6 py-4 rounded-xl text-on-background focus:outline-none focus:ring-4 focus:ring-white/30 shadow-sm"
+                required
+              />
+              <button 
+                type="submit" 
+                className="px-8 py-4 bg-on-background text-background rounded-xl font-bold hover:opacity-90 transition-all active:scale-95 whitespace-nowrap shadow-md"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
       {/* Statistics Section */}
       <section className="bg-primary py-section-v-space text-on-primary overflow-hidden relative">
         <div className="absolute inset-0 opacity-10">
