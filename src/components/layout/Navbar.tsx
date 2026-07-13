@@ -43,6 +43,9 @@ export default function Navbar() {
                 <Link href="/profile" className="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors">
                   Profile
                 </Link>
+                <Link href="/admin/books" className="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors">
+                  Manage Books
+                </Link>
               </>
             )}
           </div>
