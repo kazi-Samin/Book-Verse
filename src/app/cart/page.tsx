@@ -27,10 +27,7 @@ export default function CartPage() {
 
   const handleCheckout = () => {
     setIsCheckingOut(true);
-    setTimeout(() => {
-      alert("Redirecting to secure checkout...");
-      setIsCheckingOut(false);
-    }, 1500);
+    router.push("/checkout");
   };
 
   if (items.length === 0) {
@@ -154,16 +151,12 @@ export default function CartPage() {
             
             <button 
               onClick={handleCheckout}
-              disabled={isCheckingOut}
-              className="w-full py-4 bg-primary text-on-primary font-bold rounded-xl hover:opacity-90 transition-all active:scale-[0.98] shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-lg disabled:opacity-70 disabled:cursor-not-allowed mb-4"
+              className="w-full py-4 bg-primary text-on-primary font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/25 active:scale-[0.98] mt-6 flex items-center justify-center gap-2 text-lg"
             >
               {isCheckingOut ? (
-                <span className="flex items-center gap-2">
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  Processing...
-                </span>
+                <div className="w-5 h-5 border-2 border-on-primary border-t-transparent rounded-full animate-spin" />
               ) : (
-                "Checkout Securely"
+                "Pay Now"
               )}
             </button>
             
