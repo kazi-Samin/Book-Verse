@@ -224,29 +224,23 @@ export default function Home() {
       </section>
 
       {/* Statistics Section */}
-      <section className="bg-primary py-section-v-space text-on-primary overflow-hidden relative">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-[120px] -mr-48 -mt-48"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-[120px] -ml-48 -mb-48"></div>
-        </div>
-        <div className="max-w-container-max mx-auto px-margin-desktop relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-gutter text-center">
-            <div>
-              <div className="text-5xl font-bold mb-2">50k+</div>
-              <p className="font-label-caps text-label-caps opacity-80">Active Readers</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2">12k+</div>
-              <p className="font-label-caps text-label-caps opacity-80">Total Books</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2">150+</div>
-              <p className="font-label-caps text-label-caps opacity-80">Authors Joined</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2">99%</div>
-              <p className="font-label-caps text-label-caps opacity-80">Happy Readers</p>
-            </div>
+      <section className="bg-surface-container-lowest py-section-v-space border-y border-outline-variant">
+        <div className="max-w-container-max mx-auto px-margin-desktop">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            {[
+              { value: "50k+", label: "Active Readers", icon: "group" },
+              { value: "12k+", label: "Total Books", icon: "menu_book" },
+              { value: "150+", label: "Authors Joined", icon: "edit_note" },
+              { value: "99%", label: "Happy Readers", icon: "sentiment_satisfied" },
+            ].map((stat, i) => (
+              <div key={i} className="flex flex-col items-center gap-3 p-8">
+                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                  <span className="material-symbols-outlined text-2xl text-primary">{stat.icon}</span>
+                </div>
+                <div className="text-4xl font-bold text-on-background tracking-tight">{stat.value}</div>
+                <p className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
