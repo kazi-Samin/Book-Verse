@@ -10,25 +10,27 @@ import { useCart } from "@/hooks/useCart";
 function SuccessContent() {
   const searchParams = useSearchParams();
   const paymentIntent = searchParams.get("payment_intent");
-  const { cartItems, cartTotal, clearCart } = useCart();
+  const { items, getTotals, clearCart } = useCart();
   const [loading, setLoading] = useState(true);
   const [orderCreated, setOrderCreated] = useState(false);
 
   useEffect(() => {
     const createOrder = async () => {
-      if (paymentIntent && cartItems.length > 0 && !orderCreated) {
+      const { totalPrice } = getTotals();
+      
+      if (paymentIntent && items.length > 0 && !orderCreated) {
         setOrderCreated(true);
         try {
           const orderData = {
             orderNumber: `ORD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
-            items: cartItems.map(item => ({
-              bookId: item.id,
+            items: items.map((item: any) => ({
+              bookId: item._id,
               title: item.title,
               price: item.price,
               quantity: item.quantity,
               coverImage: item.coverImage
             })),
-            totalAmount: cartTotal,
+            totalAmount: totalPrice,
             paymentMethod: 'Stripe',
             paymentStatus: 'Paid',
             shippingAddress: {
@@ -52,7 +54,7 @@ function SuccessContent() {
     };
 
     createOrder();
-  }, [paymentIntent, cartItems, cartTotal, clearCart, orderCreated]);
+  }, [paymentIntent, items, getTotals, clearCart, orderCreated]);
 
   if (loading) {
     return (
