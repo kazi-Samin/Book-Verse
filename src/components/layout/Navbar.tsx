@@ -183,15 +183,21 @@ export default function Navbar() {
             ))}
             {session && (
               <>
+                <Link href="/profile" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-sm font-semibold shrink-0">
+                    {session.user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <span className="text-sm font-medium text-on-background truncate">{session.user.name}</span>
+                </Link>
                 <div className="h-px bg-outline-variant/60 my-2"></div>
                 {authLinks.map((link) => (
                   <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} className="block px-4 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors">
                     {link.label}
                   </Link>
                 ))}
-                <Link href="/profile" onClick={() => setMobileOpen(false)} className="block px-4 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors">
-                  Profile
-                </Link>
+                <button onClick={() => { setMobileOpen(false); handleLogout(); }} className="block w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-error hover:bg-error/10 transition-colors">
+                  Logout
+                </button>
               </>
             )}
             <div className="h-px bg-outline-variant/60 my-2"></div>

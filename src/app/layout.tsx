@@ -21,11 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} light`}>
+    <html lang="en" className={`${inter.variable} light overflow-x-hidden`}>
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       </head>
-      <body className="bg-background text-on-background selection:bg-primary/10 font-body-main antialiased min-h-screen flex flex-col overflow-x-hidden">
+      <body className="bg-background text-on-background selection:bg-primary/10 font-body-main antialiased min-h-screen flex flex-col overflow-x-hidden w-full">
         <QueryProvider>
           <ThemeProvider
             attribute="class"
