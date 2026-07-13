@@ -16,7 +16,7 @@ BookVerse is a beautifully designed, modern web application that allows users to
 - **Responsive Design:** A fully responsive interface that looks and feels like a native app on mobile devices, while providing a sprawling, immersive experience on desktop screens.
 
 ## 🚀 Tech Stack
-- **Frontend:** Next.js 14, React, Tailwind CSS, Lucide Icons
+- **Frontend:** Next.js 14, React, TypeScript, Tailwind CSS, Lucide Icons
 - **Backend:** Node.js, Express, MongoDB (via Book-Verse-Server)
 - **Authentication:** Better-Auth
 - **Payments:** Stripe Elements
