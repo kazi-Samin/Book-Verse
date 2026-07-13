@@ -31,10 +31,10 @@ const IMG1 = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=6
 const IMG2 = "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop";
 const IMG3 = "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop";
 const IMG4 = "https://images.unsplash.com/photo-1524578271613-d550eacf6090?q=80&w=600&auto=format&fit=crop";
-const IMG5 = "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=600&auto=format&fit=crop";
-const IMG6 = "https://images.unsplash.com/photo-1586380951230-e6703d4f681a?q=80&w=600&auto=format&fit=crop";
-const IMG7 = "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=600&auto=format&fit=crop";
-const IMG8 = "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop";
+const IMG5 = "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600&auto=format&fit=crop";
+const IMG6 = "https://images.unsplash.com/photo-1509021436665-8f07cd15a10c?q=80&w=600&auto=format&fit=crop";
+const IMG7 = "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=600&auto=format&fit=crop";
+const IMG8 = "https://images.unsplash.com/photo-1517770413964-df8ca61194a6?q=80&w=600&auto=format&fit=crop";
 
 const newArrivals: StaticBook[] = [
   { title: "The Silent Observer", author: "Sarah J. Wellington", category: "Fiction", price: "$24.00", rating: "4.8", reviews: "1.2k", img: IMG1 },
