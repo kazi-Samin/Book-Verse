@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Heart, Package, Loader2, Trash2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import api from "@/lib/axios";
+import { axiosInstance as api } from "@/lib/axios";
 
 export default function Wishlist() {
   const [wishlist, setWishlist] = useState<any[]>([]);

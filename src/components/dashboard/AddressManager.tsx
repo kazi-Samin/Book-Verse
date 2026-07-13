@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { MapPin, Plus, Trash2, Loader2 } from "lucide-react";
-import api from "@/lib/axios";
-import { toast } from "sonner";
+import { axiosInstance as api } from "@/lib/axios";
+import { toast } from "react-hot-toast";
 
 export default function AddressManager() {
   const [addresses, setAddresses] = useState<any[]>([]);

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import Wishlist from "./Wishlist";
 import AddressManager from "./AddressManager";
-import api from "@/lib/axios";
+import { axiosInstance as api } from "@/lib/axios";
 
 export default function UserDashboard() {
   const { data: session } = useSession();
