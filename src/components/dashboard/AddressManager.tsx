@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { MapPin, Plus, Trash2, Loader2 } from "lucide-react";
+import api from "@/lib/axios";
+import { toast } from "sonner";
 
 export default function AddressManager() {
   const [addresses, setAddresses] = useState<any[]>([]);
@@ -15,10 +17,9 @@ export default function AddressManager() {
 
   const fetchAddresses = async () => {
     try {
-      const res = await fetch("/api/user/addresses", { credentials: "include" });
-      if (res.ok) {
-        const data = await res.json();
-        setAddresses(data);
+      const res = await api.get("/user/addresses");
+      if (res.data) {
+        setAddresses(res.data.data || res.data);
       }
     } catch (err) {
       console.error(err);
@@ -29,23 +30,18 @@ export default function AddressManager() {
 
   const handleDelete = async (id: string) => {
     setAddresses(prev => prev.filter(a => a.id !== id));
-    await fetch(`/api/user/addresses/${id}`, { method: 'DELETE', credentials: 'include' });
+    await api.delete(`/user/addresses/${id}`);
   };
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/user/addresses", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newAddress),
-        credentials: 'include'
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setAddresses(prev => [...prev, data]);
+      const res = await api.post("/user/addresses", newAddress);
+      if (res.data) {
+        toast.success("Address added successfully");
         setIsAdding(false);
         setNewAddress({ street: '', city: '', state: '', zip: '', country: '' });
+        fetchAddresses();
       }
     } catch (err) {
       console.error(err);

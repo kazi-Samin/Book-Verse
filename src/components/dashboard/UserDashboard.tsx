@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import Wishlist from "./Wishlist";
 import AddressManager from "./AddressManager";
+import api from "@/lib/axios";
 
 export default function UserDashboard() {
   const { data: session } = useSession();
@@ -22,10 +23,9 @@ export default function UserDashboard() {
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
-      const res = await fetch("/api/orders", { credentials: "include" });
-      if (res.ok) {
-        const data = await res.json();
-        setOrders(data);
+      const res = await api.get("/orders");
+      if (res.data) {
+        setOrders(res.data.data || res.data);
       }
     } catch (err) {
       console.error(err);

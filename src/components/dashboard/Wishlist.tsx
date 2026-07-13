@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Heart, Package, Loader2, Trash2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import api from "@/lib/axios";
 
 export default function Wishlist() {
   const [wishlist, setWishlist] = useState<any[]>([]);
@@ -15,10 +16,9 @@ export default function Wishlist() {
 
   const fetchWishlist = async () => {
     try {
-      const res = await fetch("/api/user/wishlist", { credentials: "include" });
-      if (res.ok) {
-        const data = await res.json();
-        setWishlist(data);
+      const res = await api.get("/user/wishlist");
+      if (res.data) {
+        setWishlist(res.data.data || res.data);
       }
     } catch (err) {
       console.error(err);
@@ -29,7 +29,7 @@ export default function Wishlist() {
 
   const removeFromWishlist = async (id: string) => {
     setWishlist((prev) => prev.filter((item) => item.id !== id));
-    await fetch(`/api/user/wishlist/${id}`, { method: 'DELETE', credentials: 'include' });
+    await api.delete(`/user/wishlist/${id}`);
   };
 
   if (loading) {
