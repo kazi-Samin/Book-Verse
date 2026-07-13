@@ -5,17 +5,17 @@ import { ChevronRight, ArrowRight, BookOpen, Users, Star, Award, Code, Monitor, 
 import { motion, Variants } from "framer-motion";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 1, y: 0 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+    transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" as const },
   }),
 };
 
 const stagger: Variants = {
-  visible: { transition: { staggerChildren: 0.1 } },
-  hidden: { opacity: 0 }
+  visible: { transition: { staggerChildren: 0.08 } },
+  hidden: { opacity: 1 }
 };
 
 const categories = [
@@ -145,7 +145,7 @@ export default function CategoriesPage() {
         <div className="max-w-container-max mx-auto px-margin-desktop relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 1, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
             >
@@ -153,7 +153,7 @@ export default function CategoriesPage() {
               <p className="text-on-surface-variant text-lg">Browse our extensive library by your favorite genre.</p>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 1, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
             >
@@ -204,7 +204,7 @@ export default function CategoriesPage() {
         <div className="max-w-container-max mx-auto px-margin-desktop relative z-10">
           <motion.div 
             className="rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl bg-on-background"
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 1, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
