@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import QueryProvider from "@/components/providers/QueryProvider";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -24,11 +25,20 @@ export default function RootLayout({
       </head>
       <body className="bg-background selection:bg-primary/10 font-body-main antialiased min-h-screen flex flex-col">
         <QueryProvider>
-          <Navbar />
-          <main className="w-full flex-grow">
-            {children}
-          </main>
-          <Footer />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="flex-grow">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </ThemeProvider>
         </QueryProvider>
       </body>
     </html>

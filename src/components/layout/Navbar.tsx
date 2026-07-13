@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Moon, Sun, Loader2 } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function Navbar() {
   const { data: session, isPending } = useSession();
@@ -55,7 +56,7 @@ export default function Navbar() {
         <div className="flex items-center gap-6">
           <div className="hidden md:flex items-center gap-4">
             <Search className="w-6 h-6 text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity" />
-            <Moon className="w-6 h-6 text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity" />
+            <ThemeToggle />
           </div>
           <div className="flex items-center gap-3">
             {isPending ? (
