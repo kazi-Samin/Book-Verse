@@ -39,9 +39,11 @@ export default function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
+  const isAdmin = session?.user?.email === "kazisamin0173@gmail.com" || session?.user?.role === "admin";
+
   const authLinks = [
     { href: "/dashboard", label: "Dashboard" },
-    ...(session?.user?.email === "kazisamin0173@gmail.com" || session?.user?.role === "admin" ? [{ href: "/admin/books", label: "Manage" }] : []),
+    ...(isAdmin ? [{ href: "/admin/books", label: "Manage" }] : []),
   ];
 
   const isActive = (href: string) => {
@@ -103,17 +105,19 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-3 shrink-0">
-          <button
-            onClick={toggleCart}
-            className="relative p-2 rounded-lg text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors flex items-center justify-center"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            {mounted && getTotals().totalItems > 0 && (
-              <span className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 bg-primary text-on-primary text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                {getTotals().totalItems}
-              </span>
-            )}
-          </button>
+          {!isAdmin && (
+            <button
+              onClick={toggleCart}
+              className="relative p-2 rounded-lg text-on-surface-variant hover:text-on-background hover:bg-surface-container-low transition-colors flex items-center justify-center"
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {mounted && getTotals().totalItems > 0 && (
+                <span className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 bg-primary text-on-primary text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {getTotals().totalItems}
+                </span>
+              )}
+            </button>
+          )}
           
           <div className="hidden md:block">
             <ThemeToggle />

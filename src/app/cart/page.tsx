@@ -4,15 +4,22 @@ import { useCart } from "@/hooks/useCart";
 import { ArrowRight, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, getTotals } = useCart();
   const [mounted, setMounted] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    if (session?.user?.email === "kazisamin0173@gmail.com" || session?.user?.role === "admin") {
+      router.push("/dashboard");
+    }
+  }, [session, router]);
 
   if (!mounted) return null;
 

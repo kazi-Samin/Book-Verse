@@ -21,6 +21,12 @@ export default function BookCard({ book }: BookCardProps) {
       router.push(`/login`);
       return;
     }
+
+    const isAdmin = session.user.email === "kazisamin0173@gmail.com" || session.user.role === "admin";
+    if (isAdmin) {
+      toast.error("Admins cannot place orders.");
+      return;
+    }
     
     addItem({
       _id: book._id,
