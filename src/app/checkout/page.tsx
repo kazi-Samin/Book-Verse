@@ -57,14 +57,22 @@ function CheckoutForm() {
 
 export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     api.post("/payments/create-payment-intent", { amount: 97.48, currency: "usd" })
       .then((res) => {
-        setClientSecret(res.data.data.clientSecret);
+        if (res.data?.data?.clientSecret) {
+          setClientSecret(res.data.data.clientSecret);
+        } else {
+          setErrorMsg("Could not fetch client secret. Invalid response from server.");
+        }
       })
-      .catch(err => console.error("Could not fetch client secret", err));
+      .catch(err => {
+        console.error("Could not fetch client secret", err);
+        setErrorMsg(err.response?.data?.message || "Failed to initialize secure checkout. Please try again later.");
+      });
   }, []);
 
   const appearance = {
@@ -85,7 +93,15 @@ export default function CheckoutPage() {
       <div className="max-w-2xl mx-auto bg-surface rounded-2xl p-8 border border-outline-variant shadow-sm">
         <h1 className="text-3xl font-bold text-on-background mb-8 text-center">Secure Checkout</h1>
         
-        {clientSecret ? (
+        {errorMsg ? (
+          <div className="p-6 bg-error/10 border border-error rounded-xl text-center">
+            <h3 className="text-error font-bold mb-2">Checkout Error</h3>
+            <p className="text-on-background font-medium mb-4">{errorMsg}</p>
+            <p className="text-sm text-on-surface-variant">
+              If this says "Stripe secret key is not configured", please ensure you have added STRIPE_SECRET_KEY to your backend Vercel environment variables.
+            </p>
+          </div>
+        ) : clientSecret ? (
           <Elements options={options} stripe={stripePromise}>
             <CheckoutForm />
           </Elements>
