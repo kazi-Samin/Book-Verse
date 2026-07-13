@@ -104,38 +104,38 @@
   }
   
   .dark {
-    --color-background: #131b2e;
-    --color-on-background: #eef0ff;
-    --color-surface: #111422;
-    --color-on-surface: #eef0ff;
-    --color-surface-container-lowest: #0a0e19;
-    --color-surface-container-low: #1a1e2e;
-    --color-surface-container: #222739;
-    --color-surface-container-high: #2a3147;
-    --color-surface-container-highest: #333a53;
-    --color-on-surface-variant: #c3c6d7;
-    --color-outline: #8c8f9e;
-    --color-outline-variant: #434655;
+    --color-background: #0b0f19; /* Very dark slate blue */
+    --color-on-background: #f8fafc; /* Crisp white */
+    --color-surface: #0f172a; /* Slate 900 */
+    --color-on-surface: #f8fafc;
+    --color-surface-container-lowest: #020617; /* Slate 950 */
+    --color-surface-container-low: #1e293b; /* Slate 800 */
+    --color-surface-container: #334155; /* Slate 700 */
+    --color-surface-container-high: #475569; /* Slate 600 */
+    --color-surface-container-highest: #64748b;
+    --color-on-surface-variant: #94a3b8; /* Slate 400 */
+    --color-outline: #475569;
+    --color-outline-variant: #1e293b;
     
-    --color-primary: #b4c5ff;
-    --color-on-primary: #002878;
-    --color-primary-container: #003ea8;
-    --color-on-primary-container: #dbe1ff;
+    --color-primary: #3b82f6; /* Vibrant Blue 500 */
+    --color-on-primary: #ffffff; /* White text on blue buttons */
+    --color-primary-container: #1e3a8a; /* Blue 900 */
+    --color-on-primary-container: #dbeafe; /* Blue 100 */
     
-    --color-secondary: #4fdbc8;
-    --color-on-secondary: #003730;
-    --color-secondary-container: #005048;
-    --color-on-secondary-container: #6df5e1;
+    --color-secondary: #2dd4bf; /* Teal 400 */
+    --color-on-secondary: #000000;
+    --color-secondary-container: #115e59; /* Teal 800 */
+    --color-on-secondary-container: #ccfbf1;
     
-    --color-tertiary: #ffb95f;
-    --color-on-tertiary: #402700;
-    --color-tertiary-container: #5c3900;
-    --color-on-tertiary-container: #ffddb8;
+    --color-tertiary: #f59e0b; /* Amber 500 */
+    --color-on-tertiary: #000000;
+    --color-tertiary-container: #b45309;
+    --color-on-tertiary-container: #fef3c7;
     
-    --color-error: #ffb4ab;
-    --color-on-error: #690005;
-    --color-error-container: #93000a;
-    --color-on-error-container: #ffdad6;
+    --color-error: #ef4444;
+    --color-on-error: #ffffff;
+    --color-error-container: #7f1d1d;
+    --color-on-error-container: #fee2e2;
   }
 }
 
