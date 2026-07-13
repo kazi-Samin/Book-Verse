@@ -9,7 +9,10 @@ import { ThemeProvider } from "@/components/ui/ThemeProvider";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "BookVerse | Discover Books You'll Love",
+  title: {
+    template: "%s | BookVerse",
+    default: "BookVerse | Discover Books You'll Love",
+  },
   description: "Browse thousands of books across different genres with a clean and enjoyable reading experience.",
 };
 
