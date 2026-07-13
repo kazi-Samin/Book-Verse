@@ -18,6 +18,10 @@ export default function Navbar() {
     router.push("/login");
   };
 
+  if (pathname === "/login" || pathname === "/register") {
+    return null;
+  }
+
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/explore", label: "Explore" },

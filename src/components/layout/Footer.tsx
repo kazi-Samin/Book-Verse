@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { Globe, Users, AtSign } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname === "/login" || pathname === "/register") return null;
+
   return (
     <footer className="bg-surface-container-lowest border-t border-outline-variant w-full mt-section-v-space">
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter px-margin-desktop py-16 max-w-container-max mx-auto">
