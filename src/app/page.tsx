@@ -31,10 +31,10 @@ const IMG1 = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=6
 const IMG2 = "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop";
 const IMG3 = "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop";
 const IMG4 = "https://images.unsplash.com/photo-1524578271613-d550eacf6090?q=80&w=600&auto=format&fit=crop";
-const IMG5 = "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600&auto=format&fit=crop";
-const IMG6 = "https://images.unsplash.com/photo-1509021436665-8f07cd15a10c?q=80&w=600&auto=format&fit=crop";
-const IMG7 = "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=600&auto=format&fit=crop";
-const IMG8 = "https://images.unsplash.com/photo-1517770413964-df8ca61194a6?q=80&w=600&auto=format&fit=crop";
+const IMG5 = "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=600&auto=format&fit=crop";
+const IMG6 = "https://images.unsplash.com/photo-1455390582262-044cdead27d8?q=80&w=600&auto=format&fit=crop";
+const IMG7 = "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=600&auto=format&fit=crop";
+const IMG8 = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=600&auto=format&fit=crop";
 
 const newArrivals: StaticBook[] = [
   { title: "The Silent Observer", author: "Sarah J. Wellington", category: "Fiction", price: "$24.00", rating: "4.8", reviews: "1.2k", img: IMG1 },
@@ -79,24 +79,24 @@ function StaticBookCard({ title, author, category, price, rating, reviews, img }
   return (
     <div className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full">
       <div className="p-4 bg-surface-container-low overflow-hidden">
-        <img className="w-full aspect-[3/4] object-cover rounded shadow-lg group-hover:rotate-1 transition-transform border border-black/5" alt={title} src={img} />
+        <img className="w-full aspect-[4/5] object-cover rounded shadow-lg group-hover:rotate-1 transition-transform border border-black/5" alt={title} src={img} />
       </div>
-      <div className="p-card-padding flex flex-col flex-grow">
-        <span className="font-label-caps text-label-caps text-primary uppercase mb-2">{category}</span>
-        <h3 className="font-card-title text-card-title text-on-background mb-1 line-clamp-2">{title}</h3>
-        <p className="font-caption text-caption text-on-surface-variant mb-4">{author}</p>
-        <div className="flex items-center gap-1 mb-6">
-          <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-          <span className="font-caption text-caption text-on-background font-medium">{rating}</span>
-          <span className="font-caption text-caption text-on-surface-variant ml-1">({reviews})</span>
+      <div className="p-5 flex flex-col flex-grow">
+        <span className="font-label-caps text-[10px] text-primary uppercase mb-1.5 tracking-wider font-bold">{category}</span>
+        <h3 className="font-card-title text-lg font-bold text-on-background mb-1 line-clamp-2 leading-tight">{title}</h3>
+        <p className="font-caption text-[13px] text-on-surface-variant mb-3">{author}</p>
+        <div className="flex items-center gap-1 mb-5">
+          <span className="material-symbols-outlined text-tertiary text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+          <span className="font-caption text-[13px] text-on-background font-medium">{rating}</span>
+          <span className="font-caption text-[13px] text-on-surface-variant ml-1">({reviews})</span>
         </div>
         <div className="mt-auto flex justify-between items-center">
-          <span className="font-card-title text-card-title text-primary font-bold">{price}</span>
+          <span className="font-card-title text-lg text-primary font-black">{price}</span>
           <button 
             onClick={handleAddToCart}
             className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all"
           >
-            <span className="material-symbols-outlined">add_shopping_cart</span>
+            <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
           </button>
         </div>
       </div>
