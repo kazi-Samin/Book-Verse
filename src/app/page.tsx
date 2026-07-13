@@ -197,25 +197,24 @@ export default function Home() {
 
       {/* Newsletter CTA */}
       <section className="max-w-container-max mx-auto px-margin-desktop py-12 mb-section-v-space">
-        <div className="bg-primary rounded-3xl p-12 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden shadow-xl">
-          <div className="absolute inset-0 opacity-20 pointer-events-none">
-            <div className="absolute top-[-50%] right-[-10%] w-[80%] h-[200%] bg-white rounded-full blur-[100px] transform rotate-45"></div>
-          </div>
-          <div className="relative z-10 max-w-xl text-center md:text-left text-on-primary">
-            <h2 className="text-4xl font-bold mb-4 font-section-title">Join Our Newsletter</h2>
-            <p className="text-lg opacity-90 font-body-main">Subscribe to get the latest updates on new arrivals, exclusive discounts, and hand-picked book recommendations.</p>
+        <div className="bg-surface rounded-3xl p-12 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden border border-outline-variant whisper-shadow">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary rounded-l-3xl"></div>
+          <div className="relative z-10 max-w-xl text-center md:text-left">
+            <span className="font-label-caps text-label-caps text-primary uppercase tracking-widest block mb-3">Stay Updated</span>
+            <h2 className="text-3xl font-bold mb-4 font-section-title text-on-background">Join Our Newsletter</h2>
+            <p className="text-on-surface-variant font-body-main">Subscribe to get the latest updates on new arrivals, exclusive discounts, and hand-picked book recommendations.</p>
           </div>
           <div className="relative z-10 w-full max-w-md">
             <form className="flex flex-col sm:flex-row gap-3">
               <input 
                 type="email" 
                 placeholder="Enter your email address" 
-                className="flex-grow px-6 py-4 rounded-xl text-on-background focus:outline-none focus:ring-4 focus:ring-white/30 shadow-sm"
+                className="flex-grow px-6 py-4 rounded-xl bg-surface-container-low border border-outline-variant text-on-background focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
                 required
               />
               <button 
                 type="submit" 
-                className="px-8 py-4 bg-on-background text-background rounded-xl font-bold hover:opacity-90 transition-all active:scale-95 whitespace-nowrap shadow-md"
+                className="px-8 py-4 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all active:scale-95 whitespace-nowrap"
               >
                 Subscribe
               </button>
