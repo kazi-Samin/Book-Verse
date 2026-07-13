@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Loader2 } from "lucide-react";
+import api from "@/lib/axios";
 
 // Make sure to call loadStripe outside of a component's render to avoid
 // recreating the Stripe object on every render.
@@ -59,14 +60,10 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    // Note: ensure you have a corresponding POST endpoint at /api/checkout to generate a client_secret
-    fetch("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "book-1" }] }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret))
+    api.post("/payments/create-payment-intent", { amount: 97.48, currency: "usd" })
+      .then((res) => {
+        setClientSecret(res.data.data.clientSecret);
+      })
       .catch(err => console.error("Could not fetch client secret", err));
   }, []);
 
