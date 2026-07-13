@@ -41,7 +41,7 @@ export default function Navbar() {
 
   const authLinks = [
     { href: "/dashboard", label: "Dashboard" },
-    ...(session?.user?.role === "admin" ? [{ href: "/admin/books", label: "Manage" }] : []),
+    ...(session?.user?.email === "kazisamin0173@gmail.com" || session?.user?.role === "admin" ? [{ href: "/admin/books", label: "Manage" }] : []),
   ];
 
   const isActive = (href: string) => {

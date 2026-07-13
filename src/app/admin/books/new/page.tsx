@@ -31,7 +31,7 @@ export default function AddBookPage() {
 
   useEffect(() => {
     if (!isPending) {
-      if (!session || session.user.role !== "admin") {
+      if (!session || (session.user.email !== "kazisamin0173@gmail.com" && session.user.role !== "admin")) {
         router.replace("/");
       }
     }

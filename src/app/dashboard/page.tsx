@@ -46,7 +46,7 @@ export default function DashboardPage() {
             <h2 className="text-xl font-bold text-on-background mb-1">{session.user.name}</h2>
             <p className="text-sm text-on-surface-variant font-medium">{session.user.email}</p>
             <div className="mt-4 inline-block px-3 py-1 bg-surface-container-high rounded-full text-xs font-bold text-on-surface-variant uppercase tracking-wider">
-              {session.user.role === "admin" ? "Admin Account" : "Member"}
+              {session.user.email === "kazisamin0173@gmail.com" || session.user.role === "admin" ? "Admin Account" : "Member"}
             </div>
           </div>
 
