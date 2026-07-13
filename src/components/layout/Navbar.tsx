@@ -36,9 +36,14 @@ export default function Navbar() {
               Contact
             </Link>
             {session && (
-              <Link href="/dashboard" className="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors">
-                Dashboard
-              </Link>
+              <>
+                <Link href="/dashboard" className="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors">
+                  Dashboard
+                </Link>
+                <Link href="/profile" className="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors">
+                  Profile
+                </Link>
+              </>
             )}
           </div>
         </div>
