@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Users, Globe, ShieldCheck, ArrowRight, Target, Compass, CheckCircle2, Linkedin, Star, Book, Sparkles } from "lucide-react";
+import { BookOpen, Users, Globe, ShieldCheck, ArrowRight, Target, Compass, CheckCircle2, Link as LinkIcon, Star, Book, Sparkles } from "lucide-react";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -366,7 +366,7 @@ export default function AboutPage() {
                 <p className="text-primary text-sm font-bold mb-3">{member.role}</p>
                 <p className="text-on-surface-variant text-sm mb-4 line-clamp-3">{member.bio}</p>
                 <a href="#" className="text-on-surface-variant hover:text-primary transition-colors inline-block">
-                  <Linkedin className="w-5 h-5" />
+                  <LinkIcon className="w-5 h-5" />
                 </a>
               </div>
             </motion.div>
