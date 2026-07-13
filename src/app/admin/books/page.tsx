@@ -3,12 +3,24 @@
 import { useBooks, useDeleteBook } from "@/hooks/useBooks";
 import { Loader2, Plus, Edit, Trash2, Search, BookX } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function ManageBooksPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useBooks({ search: searchTerm, limit: 50 });
   const deleteMutation = useDeleteBook();
+  const { data: session, isPending } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isPending) {
+      if (!session || session.user.role !== "admin") {
+        router.replace("/");
+      }
+    }
+  }, [session, isPending, router]);
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this book?")) {

@@ -7,7 +7,8 @@ import { useCreateBook } from "@/hooks/useBooks";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "@/lib/auth-client";
 
 const bookSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -26,6 +27,15 @@ export default function AddBookPage() {
   const router = useRouter();
   const createMutation = useCreateBook();
   const [errorMsg, setErrorMsg] = useState("");
+  const { data: session, isPending } = useSession();
+
+  useEffect(() => {
+    if (!isPending) {
+      if (!session || session.user.role !== "admin") {
+        router.replace("/");
+      }
+    }
+  }, [session, isPending, router]);
 
   const { register, handleSubmit, formState: { errors } } = useForm<BookForm>({
     resolver: zodResolver(bookSchema),
