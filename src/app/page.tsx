@@ -32,8 +32,8 @@ const IMG2 = "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&
 const IMG3 = "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop";
 const IMG4 = "https://images.unsplash.com/photo-1524578271613-d550eacf6090?q=80&w=600&auto=format&fit=crop";
 const IMG5 = "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=600&auto=format&fit=crop";
-const IMG6 = "https://images.unsplash.com/photo-1589998059171-9899ea85de89?q=80&w=600&auto=format&fit=crop";
-const IMG7 = "https://images.unsplash.com/photo-1511108690759-009324a5033d?q=80&w=600&auto=format&fit=crop";
+const IMG6 = "https://images.unsplash.com/photo-1586380951230-e6703d4f681a?q=80&w=600&auto=format&fit=crop";
+const IMG7 = "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=600&auto=format&fit=crop";
 const IMG8 = "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop";
 
 const newArrivals: StaticBook[] = [
