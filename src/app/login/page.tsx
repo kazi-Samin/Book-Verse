@@ -48,7 +48,7 @@ export default function LoginPage() {
   const handleGoogleSignIn = async () => {
     await signIn.social({
       provider: "google",
-      callbackURL: "/",
+      callbackURL: `${window.location.origin}/`,
     });
   };
 
