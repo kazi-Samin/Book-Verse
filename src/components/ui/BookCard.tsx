@@ -4,6 +4,7 @@ import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import { axiosInstance as api } from "@/lib/axios";
 
 interface BookCardProps {
   book: IBook;
@@ -38,8 +39,58 @@ export default function BookCard({ book }: BookCardProps) {
     toast.success("Added to cart!");
   };
 
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!session) {
+      toast.error("Please log in to buy books.");
+      router.push(`/login`);
+      return;
+    }
+    const isAdmin = session.user.email === "kazisamin0173@gmail.com" || session.user.role === "admin";
+    if (isAdmin) {
+      toast.error("Admins cannot place orders.");
+      return;
+    }
+    addItem({
+      _id: book._id,
+      title: book.title,
+      author: book.author,
+      price: book.price,
+      coverImage: book.coverImage || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop"
+    });
+    router.push("/checkout");
+  };
+
+  const handleAddToWishlist = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!session) {
+      toast.error("Please log in to add to wishlist.");
+      router.push(`/login`);
+      return;
+    }
+    try {
+      const res = await api.post("/user/wishlist", { bookId: book._id });
+      if (res.data?.success) {
+        toast.success("Added to wishlist!");
+      }
+    } catch (err: any) {
+      if (err.response?.status === 400) {
+        toast.error("Book already in wishlist!");
+      } else {
+        toast.error("Failed to add to wishlist");
+      }
+    }
+  };
+
   return (
-    <Link href={`/book/${book._id}`} className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full block">
+    <Link href={`/book/${book._id}`} className="group relative bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full block">
+      <button 
+        onClick={handleAddToWishlist} 
+        className="absolute top-3 right-3 z-20 p-2 bg-background/80 backdrop-blur-md rounded-full shadow-sm border border-outline-variant/30 hover:bg-primary hover:text-on-primary hover:border-primary transition-all text-on-surface-variant flex items-center justify-center group/btn"
+        title="Add to Wishlist"
+      >
+        <span className="material-symbols-outlined text-[18px] group-hover/btn:scale-110 transition-transform">favorite</span>
+      </button>
       <div className="p-4 bg-surface-container-low overflow-hidden">
         <img 
           className="w-full aspect-[4/5] object-cover rounded shadow-lg group-hover:rotate-1 transition-transform border border-black/5" 
@@ -58,15 +109,27 @@ export default function BookCard({ book }: BookCardProps) {
             ({book.rating ? "1.2k" : "0"})
           </span>
         </div>
-        <div className="mt-auto flex justify-between items-center">
-          <span className="font-card-title text-lg text-primary font-black">${book.price.toFixed(2)}</span>
-          <button 
-            onClick={handleAddToCart}
-            className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all z-10"
-            title="Add to Cart"
-          >
-            <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
-          </button>
+        <div className="mt-auto flex flex-col gap-3">
+          <div className="flex justify-between items-center">
+            <span className="font-card-title text-lg text-primary font-black">${book.price.toFixed(2)}</span>
+          </div>
+          <div className="flex gap-2 w-full z-10">
+            <button 
+              onClick={handleAddToCart}
+              className="flex-1 py-2 px-2 rounded-lg border border-primary text-primary hover:bg-primary hover:text-on-primary transition-colors text-[13px] font-bold flex items-center justify-center gap-1"
+              title="Add to Cart"
+            >
+              <span className="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+              Add
+            </button>
+            <button 
+              onClick={handleBuyNow}
+              className="flex-1 py-2 px-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors text-[13px] font-bold flex items-center justify-center"
+              title="Buy Now"
+            >
+              Buy Now
+            </button>
+          </div>
         </div>
       </div>
     </Link>
