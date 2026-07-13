@@ -65,7 +65,7 @@ export default function CategoriesPage() {
             </motion.div>
             <motion.h1 variants={fadeUp} custom={1} className="text-5xl md:text-7xl font-black text-on-background mb-6 leading-[1.1] tracking-tight">
               Explore A Universe Of <br className="hidden md:block"/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-secondary animate-gradient-x">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">
                 Captivating Genres
               </span>
             </motion.h1>
@@ -203,15 +203,15 @@ export default function CategoriesPage() {
       <section className="py-32 relative">
         <div className="max-w-container-max mx-auto px-margin-desktop relative z-10">
           <motion.div 
-            className="rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl bg-on-background"
+            className="rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl bg-primary"
             initial={{ opacity: 1, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             {/* Animated Gradient Background */}
-            <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay" />
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-purple-600/80 to-secondary/80" />
+            <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-indigo-700 opacity-90" />
             
             <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
               <div className="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center mb-8 border border-white/30 shadow-xl">
