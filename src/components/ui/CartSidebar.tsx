@@ -152,6 +152,14 @@ export default function CartSidebar() {
               </div>
             </div>
             
+            <Link 
+              href="/cart"
+              onClick={() => setIsOpen(false)}
+              className="w-full py-3 mb-3 bg-surface-container-high text-on-background font-bold rounded-xl hover:bg-surface-container-highest transition-all shadow-sm flex items-center justify-center border border-outline-variant/50"
+            >
+              View Full Cart
+            </Link>
+            
             <button 
               onClick={handleCheckout}
               disabled={isCheckingOut}

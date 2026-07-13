@@ -1,5 +1,9 @@
 import { IBook } from "@/types";
 import { useCart } from "@/hooks/useCart";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 interface BookCardProps {
   book: IBook;
@@ -7,8 +11,17 @@ interface BookCardProps {
 
 export default function BookCard({ book }: BookCardProps) {
   const { addItem } = useCart();
+  const { data: session } = useSession();
+  const router = useRouter();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!session) {
+      toast.error("Please log in to add books to your cart.");
+      router.push(`/login`);
+      return;
+    }
+    
     addItem({
       _id: book._id,
       title: book.title,
@@ -16,10 +29,11 @@ export default function BookCard({ book }: BookCardProps) {
       price: book.price,
       coverImage: book.coverImage || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop"
     });
+    toast.success("Added to cart!");
   };
 
   return (
-    <div className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full">
+    <Link href={`/book/${book._id}`} className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full block">
       <div className="p-4 bg-surface-container-low overflow-hidden">
         <img 
           className="w-full aspect-[4/5] object-cover rounded shadow-lg group-hover:rotate-1 transition-transform border border-black/5" 
@@ -42,12 +56,13 @@ export default function BookCard({ book }: BookCardProps) {
           <span className="font-card-title text-lg text-primary font-black">${book.price.toFixed(2)}</span>
           <button 
             onClick={handleAddToCart}
-            className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all"
+            className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all z-10"
+            title="Add to Cart"
           >
             <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

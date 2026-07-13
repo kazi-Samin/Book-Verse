@@ -2,15 +2,23 @@
 
 import Link from "next/link";
 import { ArrowRight, BookOpen, Globe, ShieldCheck } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
+const stagger: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.1, duration: 0.6, ease: "easeOut" },
-  }),
+    transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" }
+  })
 };
 
 export default function AboutPage() {

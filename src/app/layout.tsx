@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "Browse thousands of books across different genres with a clean and enjoyable reading experience.",
 };
 
+import { Toaster } from 'react-hot-toast';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,6 +40,10 @@ export default function RootLayout({
               </main>
               <Footer />
             </div>
+            <Toaster position="bottom-right" toastOptions={{
+              className: 'dark:bg-surface-container-high dark:text-on-background',
+              duration: 3000,
+            }} />
           </ThemeProvider>
         </QueryProvider>
       </body>

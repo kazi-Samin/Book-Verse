@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { ChevronRight, ArrowRight, BookOpen, Users, Star, Award, Code, Monitor, Briefcase, History, Sparkles, Rocket, Search, Heart, User, Sun, Smile, Book } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
     opacity: 1,
@@ -13,8 +13,9 @@ const fadeUp = {
   }),
 };
 
-const stagger = {
+const stagger: Variants = {
   visible: { transition: { staggerChildren: 0.08 } },
+  hidden: { opacity: 0 }
 };
 
 const categories = [

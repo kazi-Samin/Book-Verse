@@ -50,21 +50,28 @@ const topRated: StaticBook[] = [
   { title: "Empire of Dust", author: "James Aldrin", category: "History", price: "$29.99", rating: "4.7", reviews: "2.5k", img: IMG8 },
 ];
 
-const bestValue: StaticBook[] = [
-  { title: "The Paper Garden", author: "Mei Lin", category: "Fiction", price: "$9.99", rating: "4.5", reviews: "620", img: IMG1 },
-  { title: "Starlight Express", author: "Noah Blake", category: "Sci-Fi", price: "$11.99", rating: "4.6", reviews: "430", img: IMG2 },
-  { title: "Forgotten Realms", author: "Clara Jennings", category: "Mystery", price: "$12.50", rating: "4.4", reviews: "790", img: IMG4 },
-  { title: "The Human Condition", author: "Dr. R. Patel", category: "Psychology", price: "$14.99", rating: "4.7", reviews: "1.1k", img: IMG3 },
-];
-
 import { useCart } from "@/hooks/useCart";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 function StaticBookCard({ title, author, category, price, rating, reviews, img }: StaticBook) {
   const { addItem } = useCart();
+  const { data: session } = useSession();
+  const router = useRouter();
   
-  const handleAddToCart = () => {
+  const pseudoId = title.toLowerCase().replace(/\s+/g, '-');
+  
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent linking if wrapped in a link
+    
+    if (!session) {
+      toast.error("Please log in to add books to your cart.");
+      router.push(`/login`);
+      return;
+    }
+    
     // Generate a pseudo-ID for the static book so it works in the cart
-    const pseudoId = title.toLowerCase().replace(/\s+/g, '-');
     const numericPrice = parseFloat(price.replace('$', ''));
     
     addItem({
@@ -74,10 +81,12 @@ function StaticBookCard({ title, author, category, price, rating, reviews, img }
       price: numericPrice,
       coverImage: img
     });
+    
+    toast.success("Added to cart!");
   };
 
   return (
-    <div className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full">
+    <Link href={`/book/${pseudoId}`} className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full block">
       <div className="p-4 bg-surface-container-low overflow-hidden">
         <img className="w-full aspect-[4/5] object-cover rounded shadow-lg group-hover:rotate-1 transition-transform border border-black/5" alt={title} src={img} />
       </div>
@@ -94,13 +103,14 @@ function StaticBookCard({ title, author, category, price, rating, reviews, img }
           <span className="font-card-title text-lg text-primary font-black">{price}</span>
           <button 
             onClick={handleAddToCart}
-            className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all"
+            className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all z-10"
+            title="Add to Cart"
           >
             <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -252,23 +262,6 @@ export default function Home() {
 
       <div className="max-w-container-max mx-auto px-margin-desktop"><div className="border-t border-outline-variant"></div></div>
 
-      {/* Best Value — Static */}
-      <section className="max-w-container-max mx-auto px-margin-desktop py-section-v-space">
-        <motion.div className="flex justify-between items-end mb-12" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.5 }}>
-          <div>
-            <span className="font-label-caps text-label-caps text-primary uppercase tracking-widest block mb-2">Great Deals</span>
-            <h2 className="font-section-title text-section-title text-on-background">Best Value Picks</h2>
-          </div>
-          <Link href="/explore" className="font-body-main text-primary hover:underline flex items-center gap-2 font-medium">View all <ArrowRight className="w-4 h-4" /></Link>
-        </motion.div>
-        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
-          {bestValue.map((book, i) => (
-            <motion.div key={i} variants={fadeUp} custom={i}>
-              <StaticBookCard {...book} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
 
       {/* Why Choose Us Section */}
       <section className="bg-surface-container-low py-section-v-space border-y border-outline-variant">
