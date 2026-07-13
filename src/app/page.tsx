@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useBooks } from "@/hooks/useBooks";
-import BookCard from "@/components/ui/BookCard";
-import { Loader2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const fadeUp = {
@@ -19,9 +17,69 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.08 } },
 };
 
-export default function Home() {
-  const { data: booksData, isLoading } = useBooks({ limit: 8, sortBy: "newest" });
+interface StaticBook {
+  title: string;
+  author: string;
+  category: string;
+  price: string;
+  rating: string;
+  reviews: string;
+  img: string;
+}
 
+const IMG1 = "https://lh3.googleusercontent.com/aida-public/AB6AXuAcF3_0KAP48EMfpEAAiySH-PgtIo-A26xH4vEjXoUduYzyTmGgZiaXcVmJ-JaZYUOIEx-ZJzc1le4JI5_HDZWue-BFNhXECNAeQ1qqimm94aRXLkQphxXltOAIBw6sWOSG5uyeS6j9I2uwDoO_pbB49-MrTQJ2Cvq9RHT1TJVs-kNk2xDBxjwR5-hBQjqN5VU_DAS-myhO0syyzgwHv7iGfjxAEuUzvUj63RQOIuR2kLlI2xyzDjBlr_C8eROdIbXkjlh41lXZOs8";
+const IMG2 = "https://lh3.googleusercontent.com/aida-public/AB6AXuCoIu1MYU5RuYjA2U3XiSH1VqrTdmB5SV1MTV80tY2fLbSQ1ycUgzqjs8oY3SIOoQhcPHiE7hnivQrbHmeAeH4bc3fhskwjjWmKoQkbbeA6-GfKMHykTqQbV-_ls6LYpdB4ComuodM3q3mdg9LEVBghsb47RWEgynllrHeFK9Q_TxBOntUtlYDiu-wWYd_3Qtc3HLLvj_DuF4XNVerv02XNuqCKguM_V3WaYxlzd2wRDoHnwIcP-0Kq5jGkcqoFHdqkmWj3gHIRNG0";
+const IMG3 = "https://lh3.googleusercontent.com/aida-public/AB6AXuAVwnEhqjvNIiujHAPaeaKRPf-15YM0vA9Qox_d96Su8Ki881ZawNFiujfR74CVMuURXTTCQaTOcgSpBt-eRNFHRAHApKICaQpfGUxixFvQHLfCmU49diaFm8NlWfJ4lbWQlYAsFZo7nPw4jEuq26r6G0RX3Byq8AoPvzKDDFceNJdW02wyV0mBnB--KHeMWprtXNi9uTqlUiiJQtPsXvKM6HaKp8ZlEQ2VCYLLD5A2ufcTckn6FEC1SQ_MZhEuzH8OIj8U0viMbLs";
+const IMG4 = "https://lh3.googleusercontent.com/aida-public/AB6AXuBT5oiN3QDc0kL9JrZT_vH6mfLn9VO6bFnEWa1H549c-_2L6EOZpNZkYNaWwK5Ml1WG8ZytBVmMdsL4lOHyhfdEZ4q2TB67o9lHZBeFPTuJcOaKG84JlCccM2Sf5dFSjO9M0neq2Zg9HdERAN-JFQdd7xUJNgMg3GyI0cdta_OrdnQyD0hZl-LNJsOejetOyMGITVqkHXRcaKEPfHLZF_dv1bsaSZ86g4rHsshLjHxWV-C5K_P2rIdHgqreTttqG8upiAAXcwhp-hY";
+
+const newArrivals: StaticBook[] = [
+  { title: "The Silent Observer", author: "Sarah J. Wellington", category: "Fiction", price: "$24.00", rating: "4.8", reviews: "1.2k", img: IMG1 },
+  { title: "Future Pulse", author: "Marcus Thorne", category: "Sci-Fi", price: "$19.50", rating: "4.9", reviews: "850", img: IMG2 },
+  { title: "Echoes of History", author: "Dr. Helena Vance", category: "History", price: "$32.00", rating: "4.7", reviews: "2.1k", img: IMG3 },
+  { title: "Mindful Flow", author: "Elena Rossi", category: "Psychology", price: "$21.99", rating: "5.0", reviews: "540", img: IMG4 },
+];
+
+const topRated: StaticBook[] = [
+  { title: "Whispers in the Dark", author: "Liam Cross", category: "Mystery", price: "$18.99", rating: "4.9", reviews: "3.4k", img: IMG3 },
+  { title: "The Last Algorithm", author: "Priya Sharma", category: "Sci-Fi", price: "$27.00", rating: "4.8", reviews: "1.8k", img: IMG2 },
+  { title: "Beneath the Surface", author: "Olivia Hart", category: "Psychology", price: "$22.50", rating: "4.9", reviews: "980", img: IMG4 },
+  { title: "Empire of Dust", author: "James Aldrin", category: "History", price: "$29.99", rating: "4.7", reviews: "2.5k", img: IMG1 },
+];
+
+const bestValue: StaticBook[] = [
+  { title: "The Paper Garden", author: "Mei Lin", category: "Fiction", price: "$9.99", rating: "4.5", reviews: "620", img: IMG4 },
+  { title: "Starlight Express", author: "Noah Blake", category: "Sci-Fi", price: "$11.99", rating: "4.6", reviews: "430", img: IMG1 },
+  { title: "Forgotten Realms", author: "Clara Jennings", category: "Mystery", price: "$12.50", rating: "4.4", reviews: "790", img: IMG2 },
+  { title: "The Human Condition", author: "Dr. R. Patel", category: "Psychology", price: "$14.99", rating: "4.7", reviews: "1.1k", img: IMG3 },
+];
+
+function StaticBookCard({ title, author, category, price, rating, reviews, img }: StaticBook) {
+  return (
+    <div className="group bg-surface rounded-xl border border-outline-variant overflow-hidden hover:scale-[1.02] transition-all whisper-shadow flex flex-col h-full">
+      <div className="p-4 bg-surface-container-low overflow-hidden">
+        <img className="w-full aspect-[3/4] object-cover rounded shadow-lg group-hover:rotate-1 transition-transform border border-black/5" alt={title} src={img} />
+      </div>
+      <div className="p-card-padding flex flex-col flex-grow">
+        <span className="font-label-caps text-label-caps text-primary uppercase mb-2">{category}</span>
+        <h3 className="font-card-title text-card-title text-on-background mb-1 line-clamp-2">{title}</h3>
+        <p className="font-caption text-caption text-on-surface-variant mb-4">{author}</p>
+        <div className="flex items-center gap-1 mb-6">
+          <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+          <span className="font-caption text-caption text-on-background font-medium">{rating}</span>
+          <span className="font-caption text-caption text-on-surface-variant ml-1">({reviews})</span>
+        </div>
+        <div className="mt-auto flex justify-between items-center">
+          <span className="font-card-title text-card-title text-primary font-bold">{price}</span>
+          <button className="p-2 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary hover:border-primary transition-all">
+            <span className="material-symbols-outlined">add_shopping_cart</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Home() {
   const categories = [
     { name: "Fiction", icon: "auto_stories" },
     { name: "Sci-Fi", icon: "science" },
@@ -129,49 +187,62 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Sponsored Books — Real data from API */}
+      {/* New Arrivals — Static */}
       <section className="max-w-container-max mx-auto px-margin-desktop py-section-v-space">
-        <motion.div
-          className="flex justify-between items-end mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5 }}
-        >
+        <motion.div className="flex justify-between items-end mb-12" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.5 }}>
           <div>
-            <span className="font-label-caps text-label-caps text-primary uppercase tracking-widest block mb-2">Curated for you</span>
-            <h2 className="font-section-title text-section-title text-on-background">Popular This Month</h2>
+            <span className="font-label-caps text-label-caps text-primary uppercase tracking-widest block mb-2">Just Landed</span>
+            <h2 className="font-section-title text-section-title text-on-background">New Arrivals</h2>
           </div>
-          <Link href="/explore" className="font-body-main text-primary hover:underline flex items-center gap-2 font-medium">
-            View all <ArrowRight className="w-4 h-4" />
-          </Link>
+          <Link href="/explore" className="font-body-main text-primary hover:underline flex items-center gap-2 font-medium">View all <ArrowRight className="w-4 h-4" /></Link>
         </motion.div>
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
+          {newArrivals.map((book, i) => (
+            <motion.div key={i} variants={fadeUp} custom={i}>
+              <StaticBookCard {...book} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
 
-        {isLoading ? (
-          <div className="w-full py-20 flex flex-col items-center justify-center text-primary">
-            <Loader2 className="w-10 h-10 animate-spin mb-4" />
-            <p className="text-sm font-medium text-on-surface-variant">Loading books...</p>
+      <div className="max-w-container-max mx-auto px-margin-desktop"><div className="border-t border-outline-variant"></div></div>
+
+      {/* Top Rated — Static */}
+      <section className="max-w-container-max mx-auto px-margin-desktop py-section-v-space">
+        <motion.div className="flex justify-between items-end mb-12" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.5 }}>
+          <div>
+            <span className="font-label-caps text-label-caps text-primary uppercase tracking-widest block mb-2">Reader Favorites</span>
+            <h2 className="font-section-title text-section-title text-on-background">Top Rated Books</h2>
           </div>
-        ) : booksData?.data && booksData.data.length > 0 ? (
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={stagger}
-          >
-            {booksData.data.slice(0, 8).map((book, i) => (
-              <motion.div key={book._id} variants={fadeUp} custom={i}>
-                <BookCard book={book} />
-              </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          <div className="text-center py-20 text-on-surface-variant">
-            <p className="text-lg font-medium">No books available yet.</p>
-            <p className="text-sm mt-2">Add some books via the admin panel to see them here.</p>
+          <Link href="/explore" className="font-body-main text-primary hover:underline flex items-center gap-2 font-medium">View all <ArrowRight className="w-4 h-4" /></Link>
+        </motion.div>
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
+          {topRated.map((book, i) => (
+            <motion.div key={i} variants={fadeUp} custom={i}>
+              <StaticBookCard {...book} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      <div className="max-w-container-max mx-auto px-margin-desktop"><div className="border-t border-outline-variant"></div></div>
+
+      {/* Best Value — Static */}
+      <section className="max-w-container-max mx-auto px-margin-desktop py-section-v-space">
+        <motion.div className="flex justify-between items-end mb-12" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.5 }}>
+          <div>
+            <span className="font-label-caps text-label-caps text-primary uppercase tracking-widest block mb-2">Great Deals</span>
+            <h2 className="font-section-title text-section-title text-on-background">Best Value Picks</h2>
           </div>
-        )}
+          <Link href="/explore" className="font-body-main text-primary hover:underline flex items-center gap-2 font-medium">View all <ArrowRight className="w-4 h-4" /></Link>
+        </motion.div>
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
+          {bestValue.map((book, i) => (
+            <motion.div key={i} variants={fadeUp} custom={i}>
+              <StaticBookCard {...book} />
+            </motion.div>
+          ))}
+        </motion.div>
       </section>
 
       {/* Why Choose Us Section */}
