@@ -28,7 +28,7 @@ export default function DashboardPage() {
 
   if (!session) return null;
 
-  const isAdmin = session.user.email === "kazisamin0173@gmail.com" || session.user.role === "admin";
+  const isAdmin = ["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session.user.email) || session.user.role === "admin";
 
   return isAdmin ? <AdminDashboard /> : <UserDashboard />;
 }

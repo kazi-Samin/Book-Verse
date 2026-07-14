@@ -23,7 +23,7 @@ export default function BookCard({ book }: BookCardProps) {
       return;
     }
 
-    const isAdmin = session.user.email === "kazisamin0173@gmail.com" || session.user.role === "admin";
+    const isAdmin = ["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session.user.email) || session.user.role === "admin";
     if (isAdmin) {
       toast.error("Admins cannot place orders.");
       return;
@@ -46,7 +46,7 @@ export default function BookCard({ book }: BookCardProps) {
       router.push(`/login`);
       return;
     }
-    const isAdmin = session.user.email === "kazisamin0173@gmail.com" || session.user.role === "admin";
+    const isAdmin = ["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session.user.email) || session.user.role === "admin";
     if (isAdmin) {
       toast.error("Admins cannot place orders.");
       return;

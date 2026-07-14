@@ -71,7 +71,7 @@ export default function BookDetailsPage({ params }: { params: Promise<{ id: stri
       return;
     }
 
-    const isAdmin = session.user.email === "kazisamin0173@gmail.com" || session.user.role === "admin";
+    const isAdmin = ["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session.user.email) || session.user.role === "admin";
     if (isAdmin) {
       toast.error("Admins cannot place orders.");
       return;
