@@ -203,34 +203,39 @@ export default function CategoriesPage() {
       <section className="py-32 relative">
         <div className="max-w-container-max mx-auto px-margin-desktop relative z-10">
           <motion.div 
-            className="rounded-[32px] p-12 md:p-20 text-center relative overflow-hidden bg-gradient-to-br from-primary via-primary/90 to-blue-700 shadow-2xl"
+            className="rounded-[32px] p-12 md:p-20 text-center relative overflow-hidden bg-surface shadow-2xl border border-outline-variant/30"
             initial={{ opacity: 1, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Decorative Elements */}
+            {/* Ambient Glassmorphism Glows */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-              <div className="absolute -top-1/4 -right-1/4 w-[500px] h-[500px] bg-white/10 rounded-full blur-[80px]" />
-              <div className="absolute -bottom-1/4 -left-1/4 w-[400px] h-[400px] bg-white/5 rounded-full blur-[80px]" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-white/5 rounded-full blur-[60px]" />
+              <div className="absolute -top-[30%] -right-[10%] w-[500px] h-[500px] bg-primary/15 dark:bg-primary/20 rounded-full blur-[100px]" />
+              <div className="absolute -bottom-[30%] -left-[10%] w-[500px] h-[500px] bg-secondary/15 dark:bg-secondary/20 rounded-full blur-[100px]" />
             </div>
             
             <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
-              <div className="w-16 h-16 bg-white/15 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-8 border border-white/20 shadow-xl">
-                <Library className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-surface-container-lowest/80 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-8 border border-outline-variant/50 shadow-sm">
+                <Library className="w-8 h-8 text-primary" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
-                Ready to dive into your next great adventure?
+              
+              <h2 className="text-4xl md:text-5xl font-black text-on-background mb-6 leading-tight tracking-tight">
+                Ready to dive into your <br className="hidden md:block"/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                  next great adventure?
+                </span>
               </h2>
-              <p className="text-white/80 text-lg mb-10 font-medium leading-relaxed max-w-xl">
+              
+              <p className="text-on-surface-variant text-lg md:text-xl mb-10 font-medium leading-relaxed max-w-xl">
                 Join thousands of readers discovering their new favorite books every day.
               </p>
+              
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
-                <Link href="/explore" className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-base hover:bg-white/90 active:scale-[0.98] transition-all shadow-lg shadow-black/20 flex items-center justify-center gap-2">
+                <Link href="/explore" className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-bold text-base hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
                   Start Exploring <Search className="w-4 h-4" />
                 </Link>
-                <Link href="/register" className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-white/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                <Link href="/register" className="bg-surface-container-lowest text-on-surface border border-outline-variant/50 hover:bg-surface-container-low hover:border-outline-variant px-8 py-4 rounded-xl font-bold text-base hover:-translate-y-0.5 active:scale-[0.98] transition-all shadow-sm flex items-center justify-center gap-2">
                   Create Account <User className="w-4 h-4" />
                 </Link>
               </div>
