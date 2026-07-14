@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useBooks, BookFilters } from "@/hooks/useBooks";
 import BookCard from "@/components/ui/BookCard";
+import BookCardSkeleton from "@/components/ui/BookCardSkeleton";
 import { Search, Loader2, BookX, ChevronRight, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
@@ -206,9 +207,10 @@ export default function ExplorePage() {
 
               {/* Book Grid */}
               {isLoading ? (
-                <div className="w-full py-32 flex flex-col items-center justify-center text-primary">
-                  <Loader2 className="w-10 h-10 animate-spin mb-4" />
-                  <p className="font-medium text-sm">Loading catalog...</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <BookCardSkeleton key={i} />
+                  ))}
                 </div>
               ) : error ? (
                 <div className="w-full py-20 flex flex-col items-center justify-center text-error bg-error-container/20 border border-error/20 rounded-md">
