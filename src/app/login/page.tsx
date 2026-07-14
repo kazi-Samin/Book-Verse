@@ -24,14 +24,9 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<LoginForm>({
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
   });
-
-  const handleDemoLogin = () => {
-    setValue("email", "kazisamin0173@gmail.com");
-    setValue("password", "samin1234");
-  };
 
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
@@ -157,14 +152,6 @@ export default function LoginPage() {
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              {/* Demo Login Button */}
-              <button
-                type="button"
-                onClick={handleDemoLogin}
-                className="w-full py-2.5 mb-2 bg-surface-container-high text-primary rounded-xl font-bold border border-primary/20 hover:bg-primary/10 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-              >
-                <BookOpen className="w-4 h-4" /> Auto-fill Demo Credentials
-              </button>
 
               <div>
                 <label className="block text-sm font-semibold text-on-background mb-2">
