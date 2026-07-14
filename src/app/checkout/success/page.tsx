@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, Package, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -11,62 +11,64 @@ import { toast } from "react-hot-toast";
 function SuccessContent() {
   const searchParams = useSearchParams();
   const paymentIntent = searchParams.get("payment_intent");
-  const { items, getTotals, clearCart } = useCart();
+  const { clearCart } = useCart();
   const [loading, setLoading] = useState(true);
-  const [orderCreated, setOrderCreated] = useState(false);
+  const [orderData, setOrderData] = useState<any>(null);
+  const hasRun = useRef(false);
 
   useEffect(() => {
+    // Only run once
+    if (hasRun.current) return;
+    hasRun.current = true;
+
     const createOrder = async () => {
-      const { totalPrice } = getTotals();
-      
-      if (paymentIntent && items.length > 0 && !orderCreated) {
-        setOrderCreated(true);
-        try {
-          const orderData = {
-            orderNumber: `ORD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
-            items: items.map((item: any) => ({
-              bookId: item._id,
-              title: item.title,
-              price: item.price,
-              quantity: item.quantity,
-              coverImage: item.coverImage
-            })),
-            totalAmount: totalPrice,
-            paymentMethod: 'Stripe',
-            paymentStatus: 'Paid',
-            shippingAddress: {
-              fullName: "Test User",
-              phone: "0123456789",
-              streetAddress: "123 Test St",
-              city: "Test City",
-              state: "Test State",
-              zipCode: "12345",
-              country: "Bangladesh"
-            }
-          };
-          
-          await api.post("/orders", orderData);
-          clearCart();
-        } catch (err: any) {
-          console.error("Failed to create order:", err);
-          toast.error("Order save failed: " + (err.response?.data?.message || err.message));
+      try {
+        // Read the pending order from localStorage (saved before Stripe redirect)
+        const pendingOrderStr = localStorage.getItem('bookverse-pending-order');
+        
+        if (!pendingOrderStr) {
+          console.warn("No pending order found in localStorage");
+          setLoading(false);
+          return;
         }
+
+        const pendingOrder = JSON.parse(pendingOrderStr);
+
+        if (!paymentIntent) {
+          console.warn("No payment_intent in URL");
+          setLoading(false);
+          return;
+        }
+
+        // Create the order in the backend
+        const res = await api.post("/orders", pendingOrder);
+        
+        if (res.data?.success) {
+          setOrderData(pendingOrder);
+          toast.success("Order placed successfully!");
+          
+          // Clear the pending order from localStorage
+          localStorage.removeItem('bookverse-pending-order');
+          
+          // Clear the cart
+          clearCart();
+        }
+      } catch (err: any) {
+        console.error("Failed to create order:", err);
+        toast.error("Failed to save order: " + (err.response?.data?.message || err.message));
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    if (!loading && items.length === 0 && !orderCreated) {
-       // if we already finished loading but cart is empty, do nothing
-       // wait for rehydration maybe
-    }
-
     createOrder();
-  }, [paymentIntent, items, getTotals, clearCart, orderCreated, loading]);
+  }, [paymentIntent, clearCart]);
 
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
         <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        <p className="text-on-surface-variant font-medium">Processing your order...</p>
       </div>
     );
   }
@@ -83,12 +85,35 @@ function SuccessContent() {
           Thank you for your purchase. Your order has been placed and is being processed.
         </p>
 
-        <div className="bg-surface-container-low p-6 rounded-2xl mb-8 border border-outline-variant/50">
+        <div className="bg-surface-container-low p-6 rounded-2xl mb-6 border border-outline-variant/50">
           <p className="text-sm text-on-surface-variant mb-2">Transaction Reference</p>
           <p className="font-mono text-sm text-on-background bg-background px-4 py-2 rounded-lg border border-outline-variant/30 break-all">
             {paymentIntent || "N/A"}
           </p>
         </div>
+
+        {/* Order Receipt */}
+        {orderData && (
+          <div className="bg-surface-container-low p-6 rounded-2xl mb-8 border border-outline-variant/50 text-left">
+            <h3 className="font-bold text-sm text-on-background mb-4 text-center">🧾 Order Receipt</h3>
+            <div className="space-y-3">
+              {orderData.items?.map((item: any, idx: number) => (
+                <div key={idx} className="flex justify-between items-center text-sm">
+                  <div>
+                    <p className="font-medium text-on-background">{item.title}</p>
+                    <p className="text-xs text-on-surface-variant">Qty: {item.quantity}</p>
+                  </div>
+                  <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 pt-3 border-t border-outline-variant/50 flex justify-between items-center">
+              <span className="font-bold text-on-background">Total Paid</span>
+              <span className="font-bold text-lg text-primary">${orderData.totalAmount?.toFixed(2)}</span>
+            </div>
+            <p className="text-xs text-on-surface-variant mt-3 text-center">Order #{orderData.orderNumber}</p>
+          </div>
+        )}
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link

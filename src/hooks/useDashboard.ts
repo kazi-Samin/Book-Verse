@@ -4,8 +4,8 @@ import { ApiResponse } from "../types";
 
 interface DashboardStats {
   totalBooks: number;
-  activeReaders: number;
-  authorsJoined: number;
+  totalUsers: number;
+  totalOrders: number;
 }
 
 interface MonthlyStats {

@@ -51,14 +51,17 @@ export default function BookCard({ book }: BookCardProps) {
       toast.error("Admins cannot place orders.");
       return;
     }
-    addItem({
+    // Save as a direct-buy item so checkout can read it without touching the cart
+    const directItem = {
       _id: book._id,
       title: book.title,
       author: book.author,
       price: book.price,
+      quantity: 1,
       coverImage: book.coverImage || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop"
-    });
-    router.push("/checkout");
+    };
+    localStorage.setItem('bookverse-direct-buy', JSON.stringify(directItem));
+    router.push("/checkout?direct=true");
   };
 
   const handleAddToWishlist = async (e: React.MouseEvent) => {
