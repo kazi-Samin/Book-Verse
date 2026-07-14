@@ -45,9 +45,18 @@ export default function UserDashboard() {
         {/* Sidebar */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-surface rounded-2xl p-6 border border-outline-variant shadow-sm text-center">
-            <div className="w-24 h-24 rounded-full bg-primary/10 text-primary flex items-center justify-center text-3xl font-bold mx-auto mb-4 border-4 border-surface shadow-sm">
-              {session.user.name.charAt(0).toUpperCase()}
-            </div>
+            {session.user.image ? (
+              <img 
+                src={session.user.image} 
+                alt={session.user.name} 
+                className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-surface shadow-sm"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="w-24 h-24 rounded-full bg-primary/10 text-primary flex items-center justify-center text-3xl font-bold mx-auto mb-4 border-4 border-surface shadow-sm">
+                {session.user.name.charAt(0).toUpperCase()}
+              </div>
+            )}
             <h2 className="text-xl font-bold text-on-background mb-1">{session.user.name}</h2>
             <p className="text-sm text-on-surface-variant font-medium">{session.user.email}</p>
             <div className="mt-4 inline-block px-3 py-1 bg-surface-container-high rounded-full text-xs font-bold text-on-surface-variant uppercase tracking-wider">
