@@ -13,6 +13,7 @@ export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState("orders");
   const [orders, setOrders] = useState<any[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
+  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   useEffect(() => {
     if (activeTab === "orders") {
@@ -27,8 +28,9 @@ export default function UserDashboard() {
       if (res.data) {
         setOrders(res.data.data || res.data);
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      console.error("Fetch orders error:", err);
+      // Optional: toast.error("Failed to load orders");
     } finally {
       setLoadingOrders(false);
     }
@@ -96,27 +98,59 @@ export default function UserDashboard() {
               ) : (
                 <div className="space-y-4">
                   {orders.map((order) => (
-                    <div key={order.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-5 rounded-xl border border-outline-variant/60 hover:border-primary/40 transition-colors bg-surface-container-lowest/50 gap-4">
-                      <div className="flex items-start gap-4">
-                        <div className={`p-3 rounded-full ${order.status === 'Delivered' ? 'bg-secondary/10 text-secondary' : 'bg-tertiary/10 text-tertiary'}`}>
-                          {order.status === 'Delivered' ? <CheckCircle2 className="w-6 h-6" /> : <Clock className="w-6 h-6" />}
+                    <div key={order._id || order.id} className="flex flex-col p-5 rounded-xl border border-outline-variant/60 hover:border-primary/40 transition-colors bg-surface-container-lowest/50 gap-4">
+                      <div 
+                        className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full cursor-pointer"
+                        onClick={() => setExpandedOrder(expandedOrder === (order._id || order.id) ? null : (order._id || order.id))}
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className={`p-3 rounded-full ${order.status === 'Delivered' ? 'bg-secondary/10 text-secondary' : 'bg-tertiary/10 text-tertiary'}`}>
+                            {order.status === 'Delivered' ? <CheckCircle2 className="w-6 h-6" /> : <Clock className="w-6 h-6" />}
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-on-background">{order._id || order.id}</h4>
+                            <p className="text-sm text-on-surface-variant mt-0.5">{order.date || new Date(order.createdAt).toLocaleDateString()} • {order.items?.length || 1} items</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-bold text-on-background">{order._id || order.id}</h4>
-                          <p className="text-sm text-on-surface-variant mt-0.5">{order.date || new Date(order.createdAt).toLocaleDateString()} • {order.items?.length || 1} items</p>
+                        <div className="flex items-center justify-between w-full sm:w-auto gap-6 mt-4 sm:mt-0">
+                          <div className="text-left sm:text-right">
+                            <p className="font-bold text-on-background">${order.totalAmount || order.total}</p>
+                            <p className={`text-xs font-bold uppercase tracking-wider mt-0.5 ${order.status === 'Delivered' ? 'text-secondary' : 'text-tertiary'}`}>
+                              {order.status}
+                            </p>
+                          </div>
+                          <button className="p-2 bg-surface-container hover:bg-surface-container-high rounded-lg transition-colors text-on-background">
+                            <ChevronRight className={`w-5 h-5 transition-transform ${expandedOrder === (order._id || order.id) ? 'rotate-90' : ''}`} />
+                          </button>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between w-full sm:w-auto gap-6">
-                        <div className="text-left sm:text-right">
-                          <p className="font-bold text-on-background">${order.totalAmount || order.total}</p>
-                          <p className={`text-xs font-bold uppercase tracking-wider mt-0.5 ${order.status === 'Delivered' ? 'text-secondary' : 'text-tertiary'}`}>
-                            {order.status}
-                          </p>
+                      
+                      {/* Expanded Order Details (Receipt) */}
+                      {expandedOrder === (order._id || order.id) && (
+                        <div className="mt-4 pt-4 border-t border-outline-variant/50 animate-in fade-in slide-in-from-top-2 duration-200">
+                          <h5 className="font-bold text-sm text-on-background mb-4">Order Summary</h5>
+                          <div className="space-y-3">
+                            {order.items?.map((item: any, idx: number) => (
+                              <div key={item.bookId || idx} className="flex gap-4 items-center">
+                                <img src={item.coverImage || "https://images.unsplash.com/photo-1544947950-fa07a98d237f"} alt={item.title} className="w-12 h-16 object-cover rounded border border-outline-variant/30" />
+                                <div className="flex-1">
+                                  <p className="font-bold text-sm text-on-background">{item.title}</p>
+                                  <p className="text-xs text-on-surface-variant mt-1">Qty: {item.quantity}</p>
+                                </div>
+                                <p className="font-bold text-sm">${item.price * item.quantity}</p>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="mt-4 pt-4 border-t border-outline-variant/50 flex justify-between items-center">
+                            <span className="font-bold text-on-background">Total Paid:</span>
+                            <span className="font-bold text-lg text-primary">${order.totalAmount || order.total}</span>
+                          </div>
+                          <div className="mt-4 pt-4 border-t border-outline-variant/50">
+                            <p className="text-xs text-on-surface-variant"><span className="font-bold">Payment Method:</span> {order.paymentMethod || 'Stripe'}</p>
+                            <p className="text-xs text-on-surface-variant mt-1"><span className="font-bold">Shipping To:</span> {order.shippingAddress?.fullName || 'N/A'}</p>
+                          </div>
                         </div>
-                        <button className="p-2 bg-surface-container hover:bg-surface-container-high rounded-lg transition-colors text-on-background">
-                          <ChevronRight className="w-5 h-5" />
-                        </button>
-                      </div>
+                      )}
                     </div>
                   ))}
                 </div>
