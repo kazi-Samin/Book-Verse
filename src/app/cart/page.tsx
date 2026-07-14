@@ -16,7 +16,7 @@ export default function CartPage() {
 
   useEffect(() => {
     setMounted(true);
-    if (["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session?.user?.email) || session?.user?.role === "admin") {
+    if (["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session?.user?.email || "") || session?.user?.role === "admin") {
       router.push("/dashboard");
     }
   }, [session, router]);

@@ -40,7 +40,7 @@ export default function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
-  const isAdmin = ["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session?.user?.email) || session?.user?.role === "admin";
+  const isAdmin = ["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session?.user?.email || "") || session?.user?.role === "admin";
 
   const authLinks = [
     { href: "/dashboard", label: "Dashboard" },
