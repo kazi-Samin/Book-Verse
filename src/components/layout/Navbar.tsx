@@ -40,7 +40,7 @@ export default function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
-  const isAdmin = ["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session?.user?.email || "") || session?.user?.role === "admin";
+  const isAdmin = ["kazisamin0173@gmail.com", "starspanglefinance@gmail.com"].includes(session?.user?.email?.toLowerCase() || "") || session?.user?.role === "admin";
 
   const authLinks = [
     { href: "/dashboard", label: "Dashboard" },
@@ -131,8 +131,12 @@ export default function Navbar() {
           ) : session ? (
             <div className="hidden md:flex items-center gap-3">
               <Link href="/profile" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-sm font-semibold">
-                  {session.user.name.charAt(0).toUpperCase()}
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-sm font-semibold overflow-hidden">
+                  {session.user.image ? (
+                    <img src={session.user.image} alt={session.user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    session.user.name.charAt(0).toUpperCase()
+                  )}
                 </div>
                 <span className="text-sm font-medium text-on-background max-w-[100px] truncate">{session.user.name.split(" ")[0]}</span>
               </Link>
@@ -185,8 +189,12 @@ export default function Navbar() {
             {session && (
               <>
                 <Link href="/profile" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-sm font-semibold shrink-0">
-                    {session.user.name.charAt(0).toUpperCase()}
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary text-sm font-semibold shrink-0 overflow-hidden">
+                    {session.user.image ? (
+                      <img src={session.user.image} alt={session.user.name} className="w-full h-full object-cover" />
+                    ) : (
+                      session.user.name.charAt(0).toUpperCase()
+                    )}
                   </div>
                   <span className="text-sm font-medium text-on-background truncate">{session.user.name}</span>
                 </Link>
