@@ -12,22 +12,6 @@ export default function AdminDashboard() {
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
   const { data: monthly, isLoading: monthlyLoading } = useMonthlyStats();
 
-  if (statsLoading || monthlyLoading) {
-    return (
-      <div className="w-full min-h-[60vh] flex flex-col items-center justify-center text-primary">
-        <Loader2 className="w-10 h-10 animate-spin mb-4" />
-        <p className="font-body-main font-medium">Loading admin dashboard...</p>
-      </div>
-    );
-  }
-
-  if (!session) return null;
-
-  const chartData = monthly?.data?.months.map((month, i) => ({
-    name: month,
-    sales: monthly.data?.sales[i] || 0,
-  })) || [];
-
   const [activeTab, setActiveTab] = useState("overview");
   const [orders, setOrders] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
@@ -60,7 +44,6 @@ export default function AdminDashboard() {
   const updateOrderStatus = async (orderId: string, status: string) => {
     try {
       await axiosInstance.patch(`/orders/${orderId}/status`, { status });
-      // Update local state
       setOrders(orders.map(o => (o._id === orderId || o.id === orderId) ? { ...o, status } : o));
     } catch (err) {
       console.error("Failed to update status", err);
@@ -71,6 +54,22 @@ export default function AdminDashboard() {
     if (activeTab === "orders") fetchAllOrders();
     if (activeTab === "users") fetchAllUsers();
   }, [activeTab]);
+
+  if (statsLoading || monthlyLoading) {
+    return (
+      <div className="w-full min-h-[60vh] flex flex-col items-center justify-center text-primary">
+        <Loader2 className="w-10 h-10 animate-spin mb-4" />
+        <p className="font-body-main font-medium">Loading admin dashboard...</p>
+      </div>
+    );
+  }
+
+  if (!session) return null;
+
+  const chartData = monthly?.data?.months.map((month: string, i: number) => ({
+    name: month,
+    sales: monthly.data?.sales[i] || 0,
+  })) || [];
 
   return (
     <div className="max-w-container-max mx-auto px-margin-desktop py-12">
