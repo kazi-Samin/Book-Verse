@@ -104,38 +104,38 @@
   }
   
   .dark {
-    --color-background: #0b0f19; /* Very dark slate blue */
-    --color-on-background: #ffffff; /* Pure white for higher contrast */
-    --color-surface: #131c31; /* Slightly lighter than background */
-    --color-on-surface: #ffffff;
-    --color-surface-container-lowest: #05080f; /* Near black */
-    --color-surface-container-low: #1e293b; /* Slate 800 */
-    --color-surface-container: #334155; /* Slate 700 */
-    --color-surface-container-high: #475569; /* Slate 600 */
-    --color-surface-container-highest: #64748b;
-    --color-on-surface-variant: #cbd5e1; /* Slate 300 - Much brighter text */
-    --color-outline: #64748b; /* Slate 500 */
-    --color-outline-variant: #334155; /* Slate 700 - Better border contrast */
+    --color-background: #09090b; /* Zinc 950 - Professional deep black */
+    --color-on-background: #fafafa; /* Zinc 50 - Soft white */
+    --color-surface: #09090b; /* Zinc 950 */
+    --color-on-surface: #fafafa;
+    --color-surface-container-lowest: #000000; /* Pure black */
+    --color-surface-container-low: #18181b; /* Zinc 900 */
+    --color-surface-container: #27272a; /* Zinc 800 */
+    --color-surface-container-high: #3f3f46; /* Zinc 700 */
+    --color-surface-container-highest: #52525b; /* Zinc 600 */
+    --color-on-surface-variant: #a1a1aa; /* Zinc 400 - Perfect muted text */
+    --color-outline: #52525b; /* Zinc 600 */
+    --color-outline-variant: #27272a; /* Zinc 800 - Subtle borders */
     
-    --color-primary: #3b82f6; /* Vibrant Blue 500 */
-    --color-on-primary: #ffffff; /* White text on blue buttons */
-    --color-primary-container: #1e3a8a; /* Blue 900 */
-    --color-on-primary-container: #dbeafe; /* Blue 100 */
+    --color-primary: #3b82f6; /* Blue 500 - Keep the brand primary */
+    --color-on-primary: #ffffff; 
+    --color-primary-container: #1d4ed8; /* Blue 700 */
+    --color-on-primary-container: #eff6ff; /* Blue 50 */
     
-    --color-secondary: #2dd4bf; /* Teal 400 */
-    --color-on-secondary: #000000;
-    --color-secondary-container: #115e59; /* Teal 800 */
-    --color-on-secondary-container: #ccfbf1;
+    --color-secondary: #0ea5e9; /* Sky 500 */
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: #0369a1; /* Sky 700 */
+    --color-on-secondary-container: #f0f9ff;
     
-    --color-tertiary: #f59e0b; /* Amber 500 */
-    --color-on-tertiary: #000000;
-    --color-tertiary-container: #b45309;
-    --color-on-tertiary-container: #fef3c7;
+    --color-tertiary: #8b5cf6; /* Violet 500 */
+    --color-on-tertiary: #ffffff;
+    --color-tertiary-container: #6d28d9; /* Violet 700 */
+    --color-on-tertiary-container: #f5f3ff;
     
     --color-error: #ef4444;
     --color-on-error: #ffffff;
-    --color-error-container: #7f1d1d;
-    --color-on-error-container: #fee2e2;
+    --color-error-container: #991b1b;
+    --color-on-error-container: #fef2f2;
   }
 }
 

@@ -203,30 +203,34 @@ export default function CategoriesPage() {
       <section className="py-32 relative">
         <div className="max-w-container-max mx-auto px-margin-desktop relative z-10">
           <motion.div 
-            className="rounded-[32px] p-12 md:p-20 text-center relative overflow-hidden bg-[#0f172a] border border-slate-800 shadow-2xl"
+            className="rounded-[32px] p-12 md:p-20 text-center relative overflow-hidden bg-gradient-to-br from-primary via-primary/90 to-blue-700 shadow-2xl"
             initial={{ opacity: 1, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Ambient Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
+            {/* Decorative Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+              <div className="absolute -top-1/4 -right-1/4 w-[500px] h-[500px] bg-white/10 rounded-full blur-[80px]" />
+              <div className="absolute -bottom-1/4 -left-1/4 w-[400px] h-[400px] bg-white/5 rounded-full blur-[80px]" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-white/5 rounded-full blur-[60px]" />
+            </div>
             
             <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
-              <div className="w-16 h-16 bg-slate-800/50 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-8 border border-slate-700 shadow-xl">
-                <Library className="w-8 h-8 text-primary-400" />
+              <div className="w-16 h-16 bg-white/15 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-8 border border-white/20 shadow-xl">
+                <Library className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
                 Ready to dive into your next great adventure?
               </h2>
-              <p className="text-slate-300 text-lg mb-10 font-medium leading-relaxed max-w-xl">
+              <p className="text-white/80 text-lg mb-10 font-medium leading-relaxed max-w-xl">
                 Join thousands of readers discovering their new favorite books every day.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
-                <Link href="/explore" className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-base hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                <Link href="/explore" className="bg-white text-primary px-8 py-4 rounded-xl font-bold text-base hover:bg-white/90 active:scale-[0.98] transition-all shadow-lg shadow-black/20 flex items-center justify-center gap-2">
                   Start Exploring <Search className="w-4 h-4" />
                 </Link>
-                <Link href="/register" className="bg-slate-800/50 backdrop-blur-md border border-slate-700 text-white px-8 py-4 rounded-xl font-semibold text-base hover:bg-slate-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                <Link href="/register" className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-white/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
                   Create Account <User className="w-4 h-4" />
                 </Link>
               </div>
