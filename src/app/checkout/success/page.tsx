@@ -6,6 +6,7 @@ import { CheckCircle2, Package, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { axiosInstance as api } from "@/lib/axios";
 import { useCart } from "@/hooks/useCart";
+import { toast } from "react-hot-toast";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
@@ -46,15 +47,21 @@ function SuccessContent() {
           
           await api.post("/orders", orderData);
           clearCart();
-        } catch (err) {
+        } catch (err: any) {
           console.error("Failed to create order:", err);
+          toast.error("Order save failed: " + (err.response?.data?.message || err.message));
         }
       }
       setLoading(false);
     };
 
+    if (!loading && items.length === 0 && !orderCreated) {
+       // if we already finished loading but cart is empty, do nothing
+       // wait for rehydration maybe
+    }
+
     createOrder();
-  }, [paymentIntent, items, getTotals, clearCart, orderCreated]);
+  }, [paymentIntent, items, getTotals, clearCart, orderCreated, loading]);
 
   if (loading) {
     return (
