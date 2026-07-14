@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, Package, ArrowRight, Loader2 } from "lucide-react";
+import { CheckCircle2, Package, ArrowRight, Loader2, AlertCircle, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { axiosInstance as api } from "@/lib/axios";
 import { useCart } from "@/hooks/useCart";
@@ -14,55 +14,65 @@ function SuccessContent() {
   const { clearCart } = useCart();
   const [loading, setLoading] = useState(true);
   const [orderData, setOrderData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
   const hasRun = useRef(false);
+
+  const createOrderFromStorage = async () => {
+    try {
+      setError(null);
+      
+      // Read the pending order from localStorage (saved before Stripe redirect)
+      const pendingOrderStr = localStorage.getItem('bookverse-pending-order');
+      
+      if (!pendingOrderStr) {
+        // Maybe order was already created on a previous load
+        console.warn("No pending order found in localStorage - order may already be saved");
+        setLoading(false);
+        return;
+      }
+
+      const pendingOrder = JSON.parse(pendingOrderStr);
+      console.log("Creating order with data:", JSON.stringify(pendingOrder, null, 2));
+
+      // Create the order in the backend
+      const res = await api.post("/orders", pendingOrder);
+      console.log("Order API response:", res.status, JSON.stringify(res.data));
+      
+      if (res.data?.success || res.status === 201) {
+        setOrderData(pendingOrder);
+        toast.success("Order placed successfully!");
+        
+        // Clear the pending order from localStorage
+        localStorage.removeItem('bookverse-pending-order');
+        
+        // Clear the cart
+        clearCart();
+      } else {
+        setError("Server returned an unexpected response. Please try again.");
+      }
+    } catch (err: any) {
+      console.error("Failed to create order:", err);
+      const msg = err.response?.data?.message || err.message || "Unknown error";
+      setError(`Failed to save order: ${msg} (Status: ${err.response?.status || 'N/A'})`);
+      toast.error("Failed to save order. You can retry below.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     // Only run once
     if (hasRun.current) return;
     hasRun.current = true;
 
-    const createOrder = async () => {
-      try {
-        // Read the pending order from localStorage (saved before Stripe redirect)
-        const pendingOrderStr = localStorage.getItem('bookverse-pending-order');
-        
-        if (!pendingOrderStr) {
-          console.warn("No pending order found in localStorage");
-          setLoading(false);
-          return;
-        }
+    createOrderFromStorage();
+  }, []);
 
-        const pendingOrder = JSON.parse(pendingOrderStr);
-
-        if (!paymentIntent) {
-          console.warn("No payment_intent in URL");
-          setLoading(false);
-          return;
-        }
-
-        // Create the order in the backend
-        const res = await api.post("/orders", pendingOrder);
-        
-        if (res.data?.success) {
-          setOrderData(pendingOrder);
-          toast.success("Order placed successfully!");
-          
-          // Clear the pending order from localStorage
-          localStorage.removeItem('bookverse-pending-order');
-          
-          // Clear the cart
-          clearCart();
-        }
-      } catch (err: any) {
-        console.error("Failed to create order:", err);
-        toast.error("Failed to save order: " + (err.response?.data?.message || err.message));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    createOrder();
-  }, [paymentIntent, clearCart]);
+  const handleRetry = () => {
+    setLoading(true);
+    hasRun.current = false;
+    createOrderFromStorage();
+  };
 
   if (loading) {
     return (
@@ -91,6 +101,24 @@ function SuccessContent() {
             {paymentIntent || "N/A"}
           </p>
         </div>
+
+        {/* Error State with Retry */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 p-4 rounded-xl mb-6 text-left">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
+              <div>
+                <p className="text-sm font-medium text-red-800">{error}</p>
+                <button 
+                  onClick={handleRetry}
+                  className="mt-2 flex items-center gap-1 text-sm font-bold text-red-600 hover:text-red-800 transition-colors"
+                >
+                  <RotateCcw className="w-4 h-4" /> Retry saving order
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Order Receipt */}
         {orderData && (
