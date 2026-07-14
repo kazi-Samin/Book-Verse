@@ -139,6 +139,12 @@
   }
 }
 
+/* Hide native password reveal icon in Edge/IE to prevent double eye icons */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
 @layer utilities {
   .whisper-shadow {
     box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.04);
