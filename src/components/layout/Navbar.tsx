@@ -15,7 +15,7 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { toggleCart, getTotals } = useCart();
+  const { toggleCart, getTotals, clearCart } = useCart();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = async () => {
+    clearCart();
     await signOut();
     router.push("/login");
   };
