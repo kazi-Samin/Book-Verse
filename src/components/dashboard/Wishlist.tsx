@@ -27,9 +27,13 @@ export default function Wishlist() {
     }
   };
 
-  const removeFromWishlist = async (id: string) => {
-    setWishlist((prev) => prev.filter((item) => item.id !== id));
-    await api.delete(`/user/wishlist/${id}`);
+  const removeFromWishlist = async (bookId: string) => {
+    setWishlist((prev) => prev.filter((item) => item.bookId?._id !== bookId));
+    try {
+      await api.delete(`/user/wishlist/${bookId}`);
+    } catch (err) {
+      console.error("Failed to remove from wishlist", err);
+    }
   };
 
   if (loading) {
@@ -56,29 +60,42 @@ export default function Wishlist() {
   return (
     <div className="bg-surface rounded-2xl p-8 border border-outline-variant shadow-sm">
       <h3 className="text-2xl font-bold text-on-background mb-6">Your Wishlist</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {wishlist.map((item) => (
-          <div key={item.id} className="border border-outline-variant/60 rounded-xl p-4 flex flex-col gap-4 relative hover:border-primary/40 transition-colors">
-            <button onClick={() => removeFromWishlist(item.id)} className="absolute top-4 right-4 p-2 text-on-surface-variant hover:text-error bg-surface rounded-full shadow-sm">
-              <Trash2 className="w-4 h-4" />
-            </button>
-            <div className="w-full h-48 bg-surface-container-lowest rounded-lg relative overflow-hidden flex items-center justify-center">
-              {item.image ? (
-                 <Image src={item.image} alt={item.title} fill className="object-cover" />
-              ) : (
-                <Package className="w-12 h-12 text-outline-variant" />
-              )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {wishlist.map((item) => {
+          const book = item.bookId;
+          if (!book) return null; // Handle case where book was deleted from db
+
+          return (
+            <div key={item._id} className="bg-surface border border-outline-variant/60 rounded-xl p-4 flex flex-col relative hover:border-primary/40 hover:shadow-md transition-all group">
+              <button 
+                onClick={() => removeFromWishlist(book._id)} 
+                className="absolute top-6 right-6 p-2 text-on-surface-variant hover:text-error bg-surface/80 backdrop-blur-sm rounded-full shadow-sm z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                title="Remove from wishlist"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+              
+              <Link href={`/explore/${book._id}`} className="block flex-1">
+                <div className="w-full aspect-[3/4] bg-surface-container-lowest rounded-lg relative overflow-hidden flex items-center justify-center mb-4">
+                  {book.coverImage ? (
+                    <Image src={book.coverImage} alt={book.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  ) : (
+                    <Package className="w-12 h-12 text-outline-variant" />
+                  )}
+                </div>
+                <div>
+                  <h4 className="font-bold text-on-background line-clamp-1">{book.title}</h4>
+                  <p className="text-sm text-on-surface-variant line-clamp-1">{book.author}</p>
+                  <p className="font-bold text-primary mt-2">${book.price}</p>
+                </div>
+              </Link>
+              
+              <button className="w-full mt-4 py-2 bg-primary/10 text-primary font-bold rounded-lg hover:bg-primary/20 transition-colors mt-auto flex justify-center items-center gap-2">
+                <Package className="w-4 h-4" /> Add to Cart
+              </button>
             </div>
-            <div>
-              <h4 className="font-bold text-on-background">{item.title}</h4>
-              <p className="text-sm text-on-surface-variant">{item.author}</p>
-              <p className="font-bold text-primary mt-2">${item.price}</p>
-            </div>
-            <button className="w-full py-2 bg-primary/10 text-primary font-bold rounded-lg hover:bg-primary/20 transition-colors mt-auto">
-              Add to Cart
-            </button>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
