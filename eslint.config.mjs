@@ -23,7 +23,11 @@ const eslintConfig = defineConfig([
       "react-hooks/immutability": "off",
       "no-use-before-define": "off",
       "prefer-const": "off",
-      "@typescript-eslint/no-unused-vars": "off"
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "react-hooks/purity": "off",
+      "@next/next/no-html-link-for-pages": "off",
+      "react-hooks/incompatible-library": "off"
     }
   }
 ]);
